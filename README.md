@@ -34,10 +34,17 @@ Copyright (c) 2023 Samantha Callie
 ## Test Used During Development
 
 #### Pseudocode tests for review  
+
 Describe: rootFinder()
 
 Test: "It should return null if given a number outside the roots"
 Code:
 const num = 18;
-rootFinger(num);
+rootFinder(num);
 Expected Output: null
+
+Test: "It should return the appropriate root final for any given root number"
+Code:
+const num = 2;
+rootFinder(num);
+Expected Output: "binary"
