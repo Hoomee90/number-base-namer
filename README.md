@@ -69,3 +69,9 @@ Code:
 const num = 6;
 factorFinder(num);
 Expected Output: [1, 2, 3, 6]
+
+Test: "It should return only the two closest together factors"
+Code:
+const num = 6;
+factorFinder(num);
+Expected Output: [2, 3]

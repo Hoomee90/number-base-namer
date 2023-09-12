@@ -28,5 +28,7 @@ function rootFinder(num, isPrefix) {
 
 function factorFinder(num) {
   let numArray = [...Array(num + 1).keys()];
-  return numArray.filter(element => num % element === 0);
+  const numFactors = numArray.filter(element => num % element === 0);
+  const factorsMid = Math.floor(numFactors.length / 2);
+  return closeFactors = numFactors.length % 2 !== 0 ? [numFactors[factorsMid]] : [numFactors[factorsMid - 1], numFactors[factorsMid]]
 }
