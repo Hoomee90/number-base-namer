@@ -36,18 +36,23 @@ function factorFinder(num) {
   }
   let left = midIndex;
   let right = midIndex + 1;
+  let partialMatch = null;
 
   while (left >= 0 || right < numFactors.length) {
-    const leftPasses = rootFinder(numFactors[left])
-    const rightPasses = rootFinder(numFactors[right])
+    const leftPasses = rootFinder(numFactors[left]);
+    const rightPasses = rootFinder(numFactors[right]);
 
-    if (leftPasses || rightPasses) {
-      return [numFactors[left], numFactors[right]]
+    if (leftPasses && rightPasses) {
+      return [numFactors[left], numFactors[right]];
+    }
+    if (!partialMatch && (leftPasses || rightPasses)) {
+      partialMatch = [numFactors[left], numFactors[right]];
     }
 
     left--;
     right++;
   }
+  return partialMatch || null;
 }
 
 // closeFactors = numFactors.length % 2 !== 0 ? [numFactors[factorsMid]] : [numFactors[factorsMid - 1], numFactors[factorsMid]];

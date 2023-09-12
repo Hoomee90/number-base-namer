@@ -81,3 +81,9 @@ Code:
 const num = 196;
 factorFinder(num);
 Expected Output: [7, 28]
+
+Test: "It should prioritize returning a pair that both pass regardless of distance"
+Code: 
+const num = 600;
+factorFinder(num);
+Expected Output: [6, 100]
