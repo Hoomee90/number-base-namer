@@ -25,3 +25,8 @@ function rootFinder(num, isPrefix) {
   }
   return null
 }
+
+function factorFinder(num) {
+  let numArray = [...Array(num + 1).keys()];
+  return numArray.filter(element => num % element === 0);
+}

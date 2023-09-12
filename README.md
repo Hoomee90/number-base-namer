@@ -55,3 +55,17 @@ const num = 3;
 const isPrefix = true
 rootFinder(num);
 Expected Output: "tri"
+
+Describe: factorFinder()
+
+Test: "It should create an array of ascending numbers as long as the input"
+Code:
+const num = 2;
+factorFinder(num);
+Expected Output: [0, 1, 2]
+
+Test: "It should filter the array into only the factors of the input"
+Code:
+const num = 6;
+factorFinder(num);
+Expected Output: [1, 2, 3, 6]
