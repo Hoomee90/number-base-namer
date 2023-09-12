@@ -2,6 +2,7 @@
 
 function rootFinder(num, isPrefix) {
   const rootValues = {
+    0 : "un",
     2 : isPrefix ? "bi":"binary",
     3 : isPrefix ? "tri":"trinary",
     4 : isPrefix ? "tetra":"quaternary",
@@ -27,6 +28,10 @@ function rootFinder(num, isPrefix) {
 }
 
 function factorFinder(num) {
+  if (rootFinder(num)) {
+    return num
+  }
+
   let numArray = [...Array(num + 1).keys()];
   let numFactors = numArray.filter(element => num % element === 0);
   let midIndex = Math.floor((numFactors.length - 1) / 2);
@@ -52,7 +57,15 @@ function factorFinder(num) {
     left--;
     right++;
   }
-  return partialMatch || null;
+  return partialMatch || 0;
 }
 
-// closeFactors = numFactors.length % 2 !== 0 ? [numFactors[factorsMid]] : [numFactors[factorsMid - 1], numFactors[factorsMid]];
+function allFactorArray(num) {
+  const factorResult = factorFinder(num);
+  
+  if (Array.isArray(factorResult)) {
+    return factorResult.flatMap(allFactorArray);
+  } else {
+    return [factorResult];
+  }
+}

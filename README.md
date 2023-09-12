@@ -87,3 +87,17 @@ Code:
 const num = 600;
 factorFinder(num);
 Expected Output: [6, 100]
+
+Describe: allFactorArray(num)
+
+Test: "It should create an array of factors and factors of factors that have root values"
+Code:
+const num = 98;
+allFactorArray(num);
+Expected Output: [7, [2, 7]]
+
+Test: "It should create an array of factors and factors of factors recursively that have root values"
+Code:
+const num = 2401;
+allFactorArray(num);
+Expected Output: [7, 7, 7, 7]
