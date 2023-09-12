@@ -28,7 +28,26 @@ function rootFinder(num, isPrefix) {
 
 function factorFinder(num) {
   let numArray = [...Array(num + 1).keys()];
-  const numFactors = numArray.filter(element => num % element === 0);
-  const factorsMid = Math.floor(numFactors.length / 2);
-  return closeFactors = numFactors.length % 2 !== 0 ? [numFactors[factorsMid]] : [numFactors[factorsMid - 1], numFactors[factorsMid]]
+  let numFactors = numArray.filter(element => num % element === 0);
+  let midIndex = Math.floor((numFactors.length - 1) / 2);
+  
+  if (numFactors.length % 2 !== 0) {
+    numFactors.splice(midIndex, 0, numFactors[midIndex]);
+  }
+  let left = midIndex;
+  let right = midIndex + 1;
+
+  while (left >= 0 || right < numFactors.length) {
+    const leftPasses = rootFinder(numFactors[left])
+    const rightPasses = rootFinder(numFactors[right])
+
+    if (leftPasses || rightPasses) {
+      return [numFactors[left], numFactors[right]]
+    }
+
+    left--;
+    right++;
+  }
 }
+
+// closeFactors = numFactors.length % 2 !== 0 ? [numFactors[factorsMid]] : [numFactors[factorsMid - 1], numFactors[factorsMid]];

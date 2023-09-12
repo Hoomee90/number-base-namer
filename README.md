@@ -75,3 +75,9 @@ Code:
 const num = 6;
 factorFinder(num);
 Expected Output: [2, 3]
+
+Test: "It should return the two closest together factors in which at least one has a root value"
+Code: 
+const num = 196;
+factorFinder(num);
+Expected Output: [7, 28]
