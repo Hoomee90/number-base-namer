@@ -48,3 +48,10 @@ Code:
 const num = 2;
 rootFinder(num);
 Expected Output: "binary"
+
+Test: "It should return the appropriate root prefix for any given root prefix"
+Code:
+const num = 3;
+const isPrefix = true
+rootFinder(num);
+Expected Output: "tri"

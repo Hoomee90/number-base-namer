@@ -1,24 +1,24 @@
 // Business Logic (BS)
 
-function rootFinder(num) {
+function rootFinder(num, isPrefix) {
   const rootValues = {
-    2 : "binary",
-    3 : "trinary",
-    4 : "quaternary",
-    5 : "quinary",
-    6 : "sextimal",
-    7 : "septimal",
-    8 : "octal",
-    9 : "nonary",
-    10 : "decimal",
-    11 : "elevenary",
-    12 : "dozenal",
-    13 : "baker's dozenal",
-    16 : "hex",
-    17 : "suboptimal",
-    20 : "icosi",
-    40 : "niftimal",
-    100 : "centesimal",
+    2 : isPrefix ? "bi":"binary",
+    3 : isPrefix ? "tri":"trinary",
+    4 : isPrefix ? "tetra":"quaternary",
+    5 : isPrefix ? "penta":"quinary",
+    6 : isPrefix ? "hexa":"sextimal",
+    7 : isPrefix ? "hepta":"septimal",
+    8 : isPrefix ? "octo":"octal",
+    9 : isPrefix ? "enna":"nonary",
+    10 : isPrefix ? "deca":"decimal",
+    11 : isPrefix ? "leva":"elevenary",
+    12 : isPrefix ? "doza":"dozenal",
+    13 : isPrefix ? "baker":"baker's dozenal",
+    16 : isPrefix ? "tesser":"hex",
+    17 : isPrefix ? "mal":"suboptimal",
+    20 : isPrefix ? "icosi":"icosi",
+    40 : isPrefix ? "feta":"niftimal",
+    100 : isPrefix ? "hecto":"centesimal"
   }
   if (rootValues[num]) {
     return rootValues[num];
