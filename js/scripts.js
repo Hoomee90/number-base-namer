@@ -1,10 +1,10 @@
 // Business Logic (BS)
 
-function rootFinder(num, isPrefix) {
+function rootFinder(num, isPrefix = false) {
   const rootValues = {
     //TODO find a different value than '1'. breaks factor finder
     0 : isPrefix ? "hen" : "un",
-    1 : isPrefix ? "sna" : "unfinal",
+    999 : isPrefix ? "sna" : "unfinal",
     2 : isPrefix ? "bi":"binary",
     3 : isPrefix ? "tri":"trinary",
     4 : isPrefix ? "tetra":"quaternary",
@@ -20,7 +20,7 @@ function rootFinder(num, isPrefix) {
     16 : isPrefix ? "tesser":"hex",
     17 : isPrefix ? "mal":"suboptimal",
     20 : isPrefix ? "icosi":"icosi",
-    40 : isPrefix ? "feta":"niftimal",
+    36 : isPrefix ? "feta" : "niftimal",
     100 : isPrefix ? "hecto":"centesimal"
   }
   if (rootValues[num]) {
@@ -53,13 +53,13 @@ function factorFinder(num) {
       return [numFactors[left], numFactors[right]];
     }
     if (!partialMatch && (leftPass || rightPass)) {
-      partialMatch = [numFactors[left], numFactors[right]];
+      partialMatch = [numFactors[right], numFactors[left]];
     }
 
     left--;
     right++;
   }
-  return partialMatch || [1, numFactors[numFactors.length] - 1, 0];
+  return partialMatch || [0, numFactors[numFactors.length - 1] - 1, 999];
 }
 
 function allFactors(num) {

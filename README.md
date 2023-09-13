@@ -99,7 +99,13 @@ Test: "It should return prime non-roots as one less than the input, with markers
 Code: 
 const num = 19;
 factorFinder(num);
-Expected Output: [1, 18, 0]
+Expected Output: [0, 18, 999]
+
+Test: "It should return numbers smallest to largest"
+Code: 
+const num = 324;
+factorFinder(num);
+Expected Output: [3, 9, 12]
 
 Describe: allFactorArray(num)
 
