@@ -56,12 +56,12 @@ const isPrefix = true
 rootFinder(num);
 Expected Output: "tri"
 
-Test: "It should treat 0 and 1 as if they are markers for non-root primes"
+Test: "It should treat string and integer keys the same, and add '(' ')' into dictionary as markers"
 Code:
-const num = 1;
+const num = '(';
 const isPrefix = false
 rootFinder(num);
-Expected Output: "tri"
+Expected Output: "un"
 
 Describe: factorFinder()
 
@@ -105,7 +105,7 @@ Test: "It should return numbers smallest to largest"
 Code: 
 const num = 324;
 factorFinder(num);
-Expected Output: [3, 9, 12]
+Expected Output: [9, 36]
 
 Describe: allFactorArray(num)
 

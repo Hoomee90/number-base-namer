@@ -2,29 +2,29 @@
 
 function rootFinder(num, isPrefix = false) {
   const rootValues = {
-    //TODO find a different value than '1'. breaks factor finder
-    0 : isPrefix ? "hen" : "un",
-    999 : isPrefix ? "sna" : "unfinal",
-    2 : isPrefix ? "bi":"binary",
-    3 : isPrefix ? "tri":"trinary",
-    4 : isPrefix ? "tetra":"quaternary",
-    5 : isPrefix ? "penta":"quinary",
-    6 : isPrefix ? "hexa":"sextimal",
-    7 : isPrefix ? "hepta":"septimal",
-    8 : isPrefix ? "octo":"octal",
-    9 : isPrefix ? "enna":"nonary",
-    10 : isPrefix ? "deca":"decimal",
-    11 : isPrefix ? "leva":"elevenary",
-    12 : isPrefix ? "doza":"dozenal",
-    13 : isPrefix ? "baker":"baker's dozenal",
-    16 : isPrefix ? "tesser":"hex",
-    17 : isPrefix ? "mal":"suboptimal",
-    20 : isPrefix ? "icosi":"icosi",
-    36 : isPrefix ? "feta" : "niftimal",
-    100 : isPrefix ? "hecto":"centesimal"
+    "(" : isPrefix ? "hen" : "un",
+    ")" : isPrefix ? "sna" : "unfinal",
+    "2" : isPrefix ? "bi":"binary",
+    "3" : isPrefix ? "tri":"trinary",
+    "4" : isPrefix ? "tetra":"quaternary",
+    "5" : isPrefix ? "penta":"quinary",
+    "6" : isPrefix ? "hexa":"sextimal",
+    "7" : isPrefix ? "hepta":"septimal",
+    "8" : isPrefix ? "octo":"octal",
+    "9" : isPrefix ? "enna":"nonary",
+    "10" : isPrefix ? "deca":"decimal",
+    "11" : isPrefix ? "leva":"elevenary",
+    "12" : isPrefix ? "doza":"dozenal",
+    "13" : isPrefix ? "baker":"baker's dozenal",
+    "16" : isPrefix ? "tesser":"hex",
+    "17" : isPrefix ? "mal":"suboptimal",
+    "20" : isPrefix ? "icosi":"icosi",
+    "36" : isPrefix ? "feta" : "niftimal",
+    "100" : isPrefix ? "hecto":"centesimal"
   }
-  if (rootValues[num]) {
-    return rootValues[num];
+  const numString = (typeof num === "string" ? num : num.toString());
+  if (rootValues[numString]) {
+    return rootValues[numString];
   }
   return null
 }
@@ -59,7 +59,7 @@ function factorFinder(num) {
     left--;
     right++;
   }
-  return partialMatch || [0, numFactors[numFactors.length - 1] - 1, 999];
+  return partialMatch || ["(", numFactors[numFactors.length - 1] - 1, ")"];
 }
 
 function allFactors(num) {
