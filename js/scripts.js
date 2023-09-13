@@ -2,8 +2,9 @@
 
 function rootFinder(num, isPrefix = true, hasPrefix = true) {
   const rootValues = {
-    "(" : hasPrefix ? "hen":"un",
-    ")" : isPrefix ? "sna":"ERROR",
+    "[" : "un",
+    "(" : "hen",
+    ")" : "sna",
     "2" : isPrefix ? "bi":"binary",
     "3" : isPrefix ? "tri":"trinary",
     "4" : isPrefix ? "tetra":"quaternary",
@@ -76,6 +77,7 @@ function numberNamer(num) {
   let factorArray = rootFactors(num);
   if (factorArray[factorArray.length - 1] === ")") {
     factorArray.pop();
+    factorArray[0] = "[";
   }
   const baseName = factorArray.reduce((accumulator, element, index) => accumulator + rootFinder(element, factorArray.length - 1 !== index, index > 0), "");
   return baseName;
