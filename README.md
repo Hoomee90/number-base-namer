@@ -63,6 +63,12 @@ const isPrefix = false
 rootFinder(num);
 Expected Output: "un"
 
+Test: "handle lone 10 and 13 inputs correctly"
+Code:
+const num = 200;
+allFactorArray(num);
+Expected Output: "decavigesimal"
+
 Describe: factorFinder()
 
 Test: "It should create an array of ascending numbers as long as the input"
@@ -128,3 +134,15 @@ Code:
 const num = 24;
 allFactorArray(num);
 Expected Output: "tetrahexa"
+
+Test: "The final factor should not be a prefix"
+Code:
+const num = 646;
+allFactorArray(num);
+Expected Output: "hentrihexasnabisuboptimal"
+
+Test: "handle lone 10 and 13 inputs correctly"
+Code:
+const num = 200;
+allFactorArray(num);
+Expected Output: "decavigesimal"

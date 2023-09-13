@@ -1,6 +1,6 @@
 // Business Logic (BS)
 
-function rootFinder(num, isPrefix = true) {
+function rootFinder(num, isPrefix = true, hasPrefix = true) {
   const rootValues = {
     "(" : isPrefix ? "hen" : "un",
     ")" : isPrefix ? "sna" : "unfinal",
@@ -12,13 +12,13 @@ function rootFinder(num, isPrefix = true) {
     "7" : isPrefix ? "hepta":"septimal",
     "8" : isPrefix ? "octo":"octal",
     "9" : isPrefix ? "enna":"nonary",
-    "10" : isPrefix ? "deca":"decimal",
+    "10" : isPrefix ? "deca": (hasPrefix ? "gesimal" : "decimal"),
     "11" : isPrefix ? "leva":"elevenary",
     "12" : isPrefix ? "doza":"dozenal",
-    "13" : isPrefix ? "baker":"baker's dozenal",
+    "13" : isPrefix ? "baker": (hasPrefix ? "ker's dozenal" : "baker's dozenal"),
     "16" : isPrefix ? "tesser":"hex",
     "17" : isPrefix ? "mal":"suboptimal",
-    "20" : isPrefix ? "icosi":"icosi",
+    "20" : isPrefix ? "icosi":"vigesimal",
     "36" : isPrefix ? "feta" : "niftimal",
     "100" : isPrefix ? "hecto":"centesimal"
   }
@@ -74,6 +74,6 @@ function rootFactors(num) {
 
 function numberNamer(num) {
   let factorArray = rootFactors(num);
-  const baseName = factorArray.reduce((accumulator, element) => accumulator + rootFinder(element), "");
+  const baseName = factorArray.reduce((accumulator, element, index) => accumulator + rootFinder(element, factorArray.length - 1 !== index, factorArray.length > 1), "");
   return baseName;
 }
