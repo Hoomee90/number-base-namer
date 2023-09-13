@@ -79,6 +79,9 @@ function numberNamer(num) {
     factorArray.pop();
     factorArray[0] = "[";
   }
-  const baseName = factorArray.reduce((accumulator, element, index) => accumulator + rootFinder(element, factorArray.length - 1 !== index, index > 0), "");
-  return baseName;
+  let baseName = factorArray.reduce((accumulator, element, index) => accumulator + rootFinder(element, factorArray.length - 1 !== index, index > 0), "");
+  
+  const vowelsAO = new RegExp(/[ao]([aeiou])/, "g");
+  const vowelsI = new RegExp(/[i][iu]/, "g");
+  return baseName.replace(vowelsI, "i").replace(vowelsAO, "$1");
 }
