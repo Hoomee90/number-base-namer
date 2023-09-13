@@ -2,7 +2,9 @@
 
 function rootFinder(num, isPrefix) {
   const rootValues = {
-    0 : "un",
+    //TODO find a different value than '1'. breaks factor finder
+    0 : isPrefix ? "hen" : "un",
+    1 : isPrefix ? "sna" : "unfinal",
     2 : isPrefix ? "bi":"binary",
     3 : isPrefix ? "tri":"trinary",
     4 : isPrefix ? "tetra":"quaternary",
@@ -29,7 +31,7 @@ function rootFinder(num, isPrefix) {
 
 function factorFinder(num) {
   if (rootFinder(num)) {
-    return num
+    return num;
   }
 
   let numArray = [...Array(num + 1).keys()];
@@ -44,27 +46,27 @@ function factorFinder(num) {
   let partialMatch = null;
 
   while (left >= 0 || right < numFactors.length) {
-    const leftPasses = rootFinder(numFactors[left]);
-    const rightPasses = rootFinder(numFactors[right]);
+    const leftPass = rootFinder(numFactors[left]);
+    const rightPass = rootFinder(numFactors[right]);
 
-    if (leftPasses && rightPasses) {
+    if (leftPass && rightPass) {
       return [numFactors[left], numFactors[right]];
     }
-    if (!partialMatch && (leftPasses || rightPasses)) {
+    if (!partialMatch && (leftPass || rightPass)) {
       partialMatch = [numFactors[left], numFactors[right]];
     }
 
     left--;
     right++;
   }
-  return partialMatch || 0;
+  return partialMatch || [1, numFactors[numFactors.length] - 1, 0];
 }
 
-function allFactorArray(num) {
+function allFactors(num) {
   const factorResult = factorFinder(num);
   
   if (Array.isArray(factorResult)) {
-    return factorResult.flatMap(allFactorArray);
+    return factorResult.flatMap(allFactors);
   } else {
     return [factorResult];
   }

@@ -56,6 +56,13 @@ const isPrefix = true
 rootFinder(num);
 Expected Output: "tri"
 
+Test: "It should treat 0 and 1 as if they are markers for non-root primes"
+Code:
+const num = 1;
+const isPrefix = false
+rootFinder(num);
+Expected Output: "tri"
+
 Describe: factorFinder()
 
 Test: "It should create an array of ascending numbers as long as the input"
@@ -87,6 +94,12 @@ Code:
 const num = 600;
 factorFinder(num);
 Expected Output: [6, 100]
+
+Test: "It should return prime non-roots as one less than the input, with markers at the beginning and end"
+Code: 
+const num = 19;
+factorFinder(num);
+Expected Output: [1, 18, 0]
 
 Describe: allFactorArray(num)
 
