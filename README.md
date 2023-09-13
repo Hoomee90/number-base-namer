@@ -120,3 +120,11 @@ Code:
 const num = 2401;
 allFactorArray(num);
 Expected Output: [7, 7, 7, 7]
+
+Describe numberNamer()
+
+Test: "It should return a string made of the root factor names of integer input"
+Code:
+const num = 24;
+allFactorArray(num);
+Expected Output: "tetrahexa"

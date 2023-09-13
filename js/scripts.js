@@ -1,6 +1,6 @@
 // Business Logic (BS)
 
-function rootFinder(num, isPrefix = false) {
+function rootFinder(num, isPrefix = true) {
   const rootValues = {
     "(" : isPrefix ? "hen" : "un",
     ")" : isPrefix ? "sna" : "unfinal",
@@ -62,12 +62,18 @@ function factorFinder(num) {
   return partialMatch || ["(", numFactors[numFactors.length - 1] - 1, ")"];
 }
 
-function allFactors(num) {
+function rootFactors(num) {
   const factorResult = factorFinder(num);
   
   if (Array.isArray(factorResult)) {
-    return factorResult.flatMap(allFactors);
+    return factorResult.flatMap(rootFactors);
   } else {
     return [factorResult];
   }
+}
+
+function numberNamer(num) {
+  let factorArray = rootFactors(num);
+  const baseName = factorArray.reduce((accumulator, element) => accumulator + rootFinder(element), "");
+  return baseName;
 }
