@@ -83,12 +83,14 @@ function rootFactors(num) {
   }
 }
 
-function numberNamer(num) {
+function numberNamer(input) {
   //Awful patch for exceptions
+  const num = Number.isInteger(input) ? input : parseInt(input);
+  
   if (num === 0 || num === -1 || num === 1) {
     return rootFinder(-1 * Math.abs(num), false, num - 1);
   }
-  let factorArray = rootFactors(num);A
+  let factorArray = rootFactors(num);
   //If the input is prime and not the prefix, use a single Un rather than Hen and Sna (kind of hacky)
   if (factorArray[factorArray.length - 1] === ")") {
     factorArray.pop();

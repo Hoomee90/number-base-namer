@@ -158,3 +158,9 @@ Code:
 const num = 1;
 allFactorArray(num);
 Expected Output: "unary"
+
+Test: "It should handle strings as well as ints"
+Code:
+const num = "200";
+allFactorArray(num);
+Expected Output: "decavigesimal"
