@@ -23,6 +23,7 @@ function rootFinder(num, isPrefix = true, hasPrefix = true) {
     "36" : isPrefix ? "feta" : "niftimal",
     "100" : isPrefix ? "hecto":"centesimal"
   }
+  //Look up both strings or integers
   const numString = (typeof num === "string" ? num : num.toString());
   if (rootValues[numString]) {
     return rootValues[numString];
@@ -31,10 +32,11 @@ function rootFinder(num, isPrefix = true, hasPrefix = true) {
 }
 
 function factorFinder(num) {
+  //Root ints are the only input that's return isn't an array
   if (rootFinder(num)) {
     return num;
   }
-
+  //Create an array of all the input's factors
   let numArray = [...Array(num + 1).keys()];
   let numFactors = numArray.filter(element => num % element === 0);
   let midIndex = Math.floor((numFactors.length - 1) / 2);
@@ -46,6 +48,7 @@ function factorFinder(num) {
   let right = midIndex + 1;
   let partialMatch = null;
 
+  //Check array for pairs of roots from the middle outwards
   while (left >= 0 || right < numFactors.length) {
     const leftPass = rootFinder(numFactors[left]);
     const rightPass = rootFinder(numFactors[right]);
@@ -60,10 +63,12 @@ function factorFinder(num) {
     left--;
     right++;
   }
+  //If there's no roots in the factors it's prime
   return partialMatch || ["(", numFactors[numFactors.length - 1] - 1, ")"];
 }
 
 function rootFactors(num) {
+  //Recursively factor all arrays outputed by factoring
   const factorResult = factorFinder(num);
   
   if (Array.isArray(factorResult)) {
@@ -81,12 +86,15 @@ function numberNamer(num) {
   }
   
   let factorArray = rootFactors(num);
+  //If the input is prime and not the prefix, use a single Un rather than Hen and Sna (kind of hacky)
   if (factorArray[factorArray.length - 1] === ")") {
     factorArray.pop();
     factorArray[0] = "[";
   }
+  //turn integer array into single string with word roots
   let baseName = factorArray.reduce((accumulator, element, index) => accumulator + rootFinder(element, factorArray.length - 1 !== index, index > 0), "");
   
+  //fix vowels for ease of pronunciation
   const vowelsAO = new RegExp(/[ao]([aeiou])/, "g");
   const vowelsI = new RegExp(/[i][iu]/, "g");
   return baseName.replace(vowelsI, "i").replace(vowelsAO, "$1");
