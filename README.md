@@ -119,6 +119,13 @@ const num = -10;
 factorFinder(num);
 Expected Output: [-1, 10]
 
+Test: "It should handle fraction input"
+Code: 
+const num = "3/2";
+factorFinder(num);
+Expected Output: [3, "/", 2]
+
+
 Describe: allFactorArray(num)
 
 Test: "It should create an array of factors and factors of factors that have root values"
@@ -153,14 +160,8 @@ const num = 200;
 allFactorArray(num);
 Expected Output: "decavigesimal"
 
-Test: "handle 1 and 0 inputs correctly"
+Test: "handle 1, -1 and 0 inputs correctly"
 Code:
 const num = 1;
 allFactorArray(num);
 Expected Output: "unary"
-
-Test: "It should handle strings as well as ints"
-Code:
-const num = "200";
-allFactorArray(num);
-Expected Output: "decavigesimal"

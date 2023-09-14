@@ -4,6 +4,7 @@ function rootFinder(num, isPrefix = true, hasPrefix = true) {
   const rootValues = {
     "0" : "nullary",
     "-1": isPrefix ? "nega" : (hasPrefix ? "negunary" : "unary"),
+    "/" : "vöt",
     "[" : "un",
     "(" : "hen",
     ")" : "sna",
@@ -38,9 +39,16 @@ function factorFinder(num) {
   if (rootFinder(num)) {
     return num;
   }
+  //convert fractions into arrays of [numerator, "/", denominator]
   if (num < 0) {
     return ["-1", Math.abs(num)];
+  }
+  if (typeof num === "string" && num.includes("/")) {
+    let fractionArray = num.split("/", 2);
+    fractionArray.splice(1, 0, "/");
+    return fractionArray.map(element => element === "/" ? element : parseInt(element));
   } 
+  
   //Create an array of all the input's factors
   let numArray = [...Array(num + 1).keys()];
   let numFactors = numArray.filter(element => num % element === 0);
@@ -83,10 +91,9 @@ function rootFactors(num) {
   }
 }
 
-function numberNamer(input) {
-  //Awful patch for exceptions
-  const num = Number.isInteger(input) ? input : parseInt(input);
+function numberNamer(num) {
   
+  //Awful patch for exceptions
   if (num === 0 || num === -1 || num === 1) {
     return rootFinder(-1 * Math.abs(num), false, num - 1);
   }
