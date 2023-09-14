@@ -113,6 +113,12 @@ const num = 324;
 factorFinder(num);
 Expected Output: [9, 36]
 
+Test: "It should handle negative input"
+Code: 
+const num = -10;
+factorFinder(num);
+Expected Output: [-1, 10]
+
 Describe: allFactorArray(num)
 
 Test: "It should create an array of factors and factors of factors that have root values"

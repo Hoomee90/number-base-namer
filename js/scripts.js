@@ -2,6 +2,8 @@
 
 function rootFinder(num, isPrefix = true, hasPrefix = true) {
   const rootValues = {
+    "0" : "nullary",
+    "-1": isPrefix ? "nega" : (hasPrefix ? "negunary" : "unary"),
     "[" : "un",
     "(" : "hen",
     ")" : "sna",
@@ -36,6 +38,9 @@ function factorFinder(num) {
   if (rootFinder(num)) {
     return num;
   }
+  if (num < 0) {
+    return ["-1", Math.abs(num)];
+  } 
   //Create an array of all the input's factors
   let numArray = [...Array(num + 1).keys()];
   let numFactors = numArray.filter(element => num % element === 0);
@@ -79,13 +84,11 @@ function rootFactors(num) {
 }
 
 function numberNamer(num) {
-  if (num === 0) {
-    return "nullary"
-  } else if (num === 1) {
-    return "unary"
+  //Awful patch for exceptions
+  if (num === 0 || num === -1 || num === 1) {
+    return rootFinder(-1 * Math.abs(num), false, num - 1);
   }
-  
-  let factorArray = rootFactors(num);
+  let factorArray = rootFactors(num);A
   //If the input is prime and not the prefix, use a single Un rather than Hen and Sna (kind of hacky)
   if (factorArray[factorArray.length - 1] === ")") {
     factorArray.pop();
