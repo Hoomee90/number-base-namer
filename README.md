@@ -66,8 +66,15 @@ Expected Output: "un"
 Test: "handle lone 10 and 13 inputs correctly"
 Code:
 const num = 200;
-allFactorArray(num);
+rootFinder(num);
 Expected Output: "decavigesimal"
+
+Test: "handle non-lone zeros for fractions"
+Code:
+const num = 0;
+const isPrefix = false
+rootFinder(num, isPrefix);
+Expected Output: "infinial"
 
 Describe: factorFinder()
 
@@ -125,19 +132,18 @@ const num = "3/2";
 factorFinder(num);
 Expected Output: [3, "/", 2]
 
-
-Describe: allFactorArray(num)
+Describe: rootFactors(num)
 
 Test: "It should create an array of factors and factors of factors that have root values"
 Code:
 const num = 98;
-allFactorArray(num);
+rootFactors(num);
 Expected Output: [7, [2, 7]]
 
 Test: "It should create an array of factors and factors of factors recursively that have root values"
 Code:
 const num = 2401;
-allFactorArray(num);
+rootFactors(num);
 Expected Output: [7, 7, 7, 7]
 
 Describe numberNamer()
@@ -145,23 +151,23 @@ Describe numberNamer()
 Test: "It should return a string made of the root factor names of integer input"
 Code:
 const num = 24;
-allFactorArray(num);
+numberNamer(num);
 Expected Output: "tetrahexa"
 
 Test: "The final factor should not be a prefix"
 Code:
 const num = 646;
-allFactorArray(num);
+numberNamer(num);
 Expected Output: "hentrihexasnabisuboptimal"
 
-Test: "handle lone 10 and 13 inputs correctly"
+Test: "handle none-lone 10 and 13 inputs correctly"
 Code:
 const num = 200;
-allFactorArray(num);
+numberNamer(num);
 Expected Output: "decavigesimal"
 
-Test: "handle 1, -1 and 0 inputs correctly"
+Test: "handle 1 and -1 inputs correctly"
 Code:
 const num = 1;
-allFactorArray(num);
+numberNamer(num);
 Expected Output: "unary"

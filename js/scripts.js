@@ -2,7 +2,7 @@
 
 function rootFinder(num, isPrefix = true, hasPrefix = true) {
   const rootValues = {
-    "0" : "nullary",
+    "0" : isPrefix ? "null": (hasPrefix ? "infinial" : "nullary"),
     "-1": isPrefix ? "nega" : (hasPrefix ? "negunary" : "unary"),
     "/" : "vöt",
     "[" : "un",
@@ -34,20 +34,22 @@ function rootFinder(num, isPrefix = true, hasPrefix = true) {
   return null
 }
 
-function factorFinder(num) {
+function factorFinder(numOrString) {
   //Root ints are the only input that's return isn't an array
-  if (rootFinder(num)) {
-    return num;
+  if (rootFinder(numOrString)) {
+    return numOrString;
   }
   //convert fractions into arrays of [numerator, "/", denominator]
+  if (typeof numOrString === "string" && numOrString.includes("/")) {
+    let fractionArray = numOrString.split("/", 2);
+    fractionArray.splice(1, 0, "/");
+    return fractionArray.map(element => element === "/" ? element : parseInt(element));
+  }
+  let num = parseInt(numOrString);
+  
   if (num < 0) {
     return ["-1", Math.abs(num)];
   }
-  if (typeof num === "string" && num.includes("/")) {
-    let fractionArray = num.split("/", 2);
-    fractionArray.splice(1, 0, "/");
-    return fractionArray.map(element => element === "/" ? element : parseInt(element));
-  } 
   
   //Create an array of all the input's factors
   let numArray = [...Array(num + 1).keys()];
@@ -94,8 +96,8 @@ function rootFactors(num) {
 function numberNamer(num) {
   
   //Awful patch for exceptions
-  if (num === 0 || num === -1 || num === 1) {
-    return rootFinder(-1 * Math.abs(num), false, num - 1);
+  if (num === -1 || num === 1) {
+    return rootFinder("-1", false, num - 1);
   }
   let factorArray = rootFactors(num);
   //If the input is prime and not the prefix, use a single Un rather than Hen and Sna (kind of hacky)
