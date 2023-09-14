@@ -74,6 +74,12 @@ function rootFactors(num) {
 }
 
 function numberNamer(num) {
+  if (num === 0) {
+    return "nullary"
+  } else if (num === 1) {
+    return "unary"
+  }
+  
   let factorArray = rootFactors(num);
   if (factorArray[factorArray.length - 1] === ")") {
     factorArray.pop();

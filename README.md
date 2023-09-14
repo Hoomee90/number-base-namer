@@ -146,3 +146,9 @@ Code:
 const num = 200;
 allFactorArray(num);
 Expected Output: "decavigesimal"
+
+Test: "handle 1 and 0 inputs correctly"
+Code:
+const num = 1;
+allFactorArray(num);
+Expected Output: "unary"
