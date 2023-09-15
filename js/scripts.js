@@ -1,4 +1,4 @@
-//Utility Logic
+// Utility Logic
 function flagHandler(...arrays) {
   //look for and process prime flags for each array input individually
   arrays.forEach(subarray => {
@@ -6,6 +6,7 @@ function flagHandler(...arrays) {
       subarray.pop();
       subarray[0] = "[";
     }
+    //process 1s in numerators and denominators
     if (subarray.length === 1 && subarray[0] === 1) {
       subarray[0] = "ONE";
     }
@@ -94,7 +95,7 @@ function factorFinder(numOrString) {
     left--;
     right++;
   }
-  //If there's no roots in the factors it's prime
+  //If there's no roots in the factors it's prime or it's 1
   return partialMatch || numFactors[0] === numFactors[1] ? 1 : ["(", numFactors[numFactors.length - 1] - 1, ")"];
 }
 
@@ -132,3 +133,21 @@ function numberNamer(num) {
   const vowelsI = new RegExp(/[i][iu]/, "g");
   return baseName.replace(vowelsI, "i").replace(vowelsAO, "$1");
 }
+
+// User Logic (UI)
+
+function inputHandler(e) {
+  const output = document.querySelector("#numberResult");
+  const validInput = new RegExp(/^-?([1-9]+0*|0)(\/-?[\d]+)?$/);
+  if (validInput.test(e.target.value)) {
+    output.innerHTML = numberNamer(e.target.value);
+  } 
+  else {
+    output.innerHTML = e.target.value === "" ? "None" : "Invalid Input!";
+  }
+}
+
+window.addEventListener("load", function() {
+  const input = document.querySelector("#numberInput");
+  input.addEventListener("input", inputHandler);
+});
