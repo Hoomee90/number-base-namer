@@ -56,7 +56,7 @@ const isPrefix = true
 rootFinder(num);
 Expected Output: "tri"
 
-Test: "It should treat string and integer keys the same, and add '(' ')' into dictionary as markers"
+Test: "It should treat string and integer keys the same, and add '(' and ')' into dictionary as markers"
 Code:
 const num = '(';
 const isPrefix = false
@@ -131,6 +131,12 @@ Code:
 const num = "3/2";
 factorFinder(num);
 Expected Output: [3, "/", 2]
+
+Test: "It should handle inputs of 1" ft Utility Logic FlagHandler()
+Code:
+const num = 1;
+factorFinder(num);
+Expected Output: 1
 
 Describe: rootFactors(num)
 

@@ -6,7 +6,10 @@ function flagHandler(...arrays) {
       subarray.pop();
       subarray[0] = "[";
     }
-  })
+    if (subarray.length === 1 && subarray[0] === 1) {
+      subarray[0] = "ONE";
+    }
+  });
   return arrays.reduce((accumulator, element, index) => accumulator.concat(index > 0 ? element.toSpliced(0, 0, "/") : element), []);
 }
 
@@ -14,8 +17,9 @@ function flagHandler(...arrays) {
 
 function rootFinder(num, isPrefix = true, hasPrefix = true) {
   const rootValues = {
+    "ONE" : isPrefix ? "uni" : "unary",
     "0" : isPrefix ? "null": (hasPrefix ? "infinital" : "nullary"),
-    "-1": isPrefix ? "nega" : (hasPrefix ? "negunary" : "unary"),
+    "-1": isPrefix ? "nega" : "negunary",
     "/" : "vöt",
     "[" : "un",
     "(" : "hen",
@@ -37,13 +41,13 @@ function rootFinder(num, isPrefix = true, hasPrefix = true) {
     "20" : isPrefix ? "icosi":"vigesimal",
     "36" : isPrefix ? "feta" : "niftimal",
     "100" : isPrefix ? "hecto":"centesimal"
-  }
+  };
   //Look up both strings or integers
   const numString = (typeof num === "string" ? num : num.toString());
   if (rootValues[numString]) {
     return rootValues[numString];
   }
-  return null
+  return null;
 }
 
 function factorFinder(numOrString) {
@@ -91,7 +95,7 @@ function factorFinder(numOrString) {
     right++;
   }
   //If there's no roots in the factors it's prime
-  return partialMatch || ["(", numFactors[numFactors.length - 1] - 1, ")"];
+  return partialMatch || numFactors[0] === numFactors[1] ? 1 : ["(", numFactors[numFactors.length - 1] - 1, ")"];
 }
 
 function rootFactors(num) {
@@ -108,9 +112,7 @@ function rootFactors(num) {
 function numberNamer(num) {
   
   //Awful patch for exceptions
-  if (num === -1 || num === 1) {
-    return rootFinder("-1", false, num - 1);
-  }
+  
   let factorArray = rootFactors(num);
   
   //If the input is prime and not the prefix, use a single Un rather than Hen and Sna (kind of hacky)
