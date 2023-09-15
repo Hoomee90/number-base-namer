@@ -138,12 +138,19 @@ function numberNamer(num) {
 
 function inputHandler(e) {
   const output = document.querySelector("#numberResult");
+  const input = e.target.value
   const validInput = new RegExp(/^-?([1-9]+0*|0)(\/-?[\d]+)?$/);
-  if (validInput.test(e.target.value)) {
-    output.innerHTML = numberNamer(e.target.value);
+  if (input.length >=  8 && !input.includes("/")) {
+      output.innerHTML = "Too large! (Do you 𝘸𝘢𝘯𝘵 the page to crash?)"
+  } 
+  else if ((input.slice(0, input.indexOf("/")).length > 7) || (input.slice(input.indexOf("/")).length > 7)) {
+    output.innerHTML = "Too large! (Do you 𝘸𝘢𝘯𝘵 the page to crash?)"
+  }
+  else if (validInput.test(input)) {
+    output.innerHTML = numberNamer(input);
   } 
   else {
-    output.innerHTML = e.target.value === "" ? "None" : "Invalid Input!";
+    output.innerHTML = input === "" ? "None" : "Invalid Input!";
   }
 }
 
