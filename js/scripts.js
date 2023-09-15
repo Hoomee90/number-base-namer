@@ -1,8 +1,20 @@
+//Utility Logic
+function flagHandler(...arrays) {
+  //look for and process prime flags for each array input individually
+  arrays.forEach(subarray => {
+    if (subarray[subarray.length - 1] === ")" && subarray[0] === "(") {
+      subarray.pop();
+      subarray[0] = "[";
+    }
+  })
+  return arrays.reduce((accumulator, element, index) => accumulator.concat(index > 0 ? element.toSpliced(0, 0, "/") : element), []);
+}
+
 // Business Logic (BS)
 
 function rootFinder(num, isPrefix = true, hasPrefix = true) {
   const rootValues = {
-    "0" : isPrefix ? "null": (hasPrefix ? "infinial" : "nullary"),
+    "0" : isPrefix ? "null": (hasPrefix ? "infinital" : "nullary"),
     "-1": isPrefix ? "nega" : (hasPrefix ? "negunary" : "unary"),
     "/" : "vöt",
     "[" : "un",
@@ -100,11 +112,16 @@ function numberNamer(num) {
     return rootFinder("-1", false, num - 1);
   }
   let factorArray = rootFactors(num);
+  
   //If the input is prime and not the prefix, use a single Un rather than Hen and Sna (kind of hacky)
-  if (factorArray[factorArray.length - 1] === ")") {
-    factorArray.pop();
-    factorArray[0] = "[";
+  if (factorArray.includes("/")) {
+    let numerator = factorArray.splice(0, factorArray.indexOf("/"));
+    let denominator = factorArray.splice(factorArray.indexOf("/") + 1);
+    factorArray = flagHandler(numerator, denominator);
+  } else {
+    factorArray = flagHandler(factorArray);
   }
+  
   //turn integer array into single string with word roots
   let baseName = factorArray.reduce((accumulator, element, index) => accumulator + rootFinder(element, factorArray.length - 1 !== index, index > 0), "");
   

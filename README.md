@@ -23,7 +23,7 @@
 
 ## Known Bugs
 
-* There are no known bugs on the site
+* Prime numbers cause unexpected outcomes when used in fractions
 
 ## License
 
@@ -71,7 +71,7 @@ Expected Output: "decavigesimal"
 
 Test: "handle non-lone zeros for fractions"
 Code:
-const num = 0;
+const num = 2/0;
 const isPrefix = false
 rootFinder(num, isPrefix);
 Expected Output: "infinial"
@@ -171,3 +171,9 @@ Code:
 const num = 1;
 numberNamer(num);
 Expected Output: "unary"
+
+Test: "handle fraction primes correctly" ft Utility Logic function flagHandler()
+Code:
+const num = "646/19";
+numberNamer(num);
+Expected Output: "hentrihexasnabimalvötuntrisextimal"
