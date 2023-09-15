@@ -96,7 +96,7 @@ function factorFinder(numOrString) {
     right++;
   }
   //If there's no roots in the factors it's prime or it's 1
-  return partialMatch || numFactors[0] === numFactors[1] ? 1 : ["(", numFactors[numFactors.length - 1] - 1, ")"];
+  return partialMatch || (numFactors[1] === 1 ? 1 : ["(", numFactors[numFactors.length - 1] - 1, ")"]);
 }
 
 function rootFactors(num) {
