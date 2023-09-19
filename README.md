@@ -2,7 +2,7 @@
 
 #### By **Samantha Callie**, inspired by [jan Misali](https://www.seximal.net/names-of-other-bases)
 
-#### 
+#### Generate The Name of Any Number Base
 
 ## Technologies Used
 
@@ -13,7 +13,7 @@
 
 ## Description
 
-.
+This page is a generator for the names of different number bases, such as binary or hexadecimal. Users can input any integer or fraction and the site will live update the according name, based on factorization into root numbers. Yes, 0 being a valid numerator and denominator is intentional.
 
 ## Setup/Installation Requirements
 
@@ -23,7 +23,7 @@
 
 ## Known Bugs
 
-* Prime numbers cause unexpected outcomes when used in fractions
+* Page begins to lag or crash when large numbers are inputted, requiring a manual length cap
 
 ## License
 
@@ -31,9 +31,7 @@
 
 Copyright (c) 2023 Samantha Callie
 
-## Test Used During Development
-
-#### Pseudocode tests for review  
+## Pseudocode Tests Used During Development
 
 Describe: rootFinder()
 
