@@ -51,6 +51,22 @@ function rootFinder(num, isPrefix = true, hasPrefix = true) {
   return null;
 }
 
+function isPrime(num) {
+  if (num === 3) {
+    return true;
+  }
+  if (num === 1 || num % 2 === 0 || num % 3 === 0) {
+    return false;
+  }
+  let rootNum = Math.sqrt(num)
+  for (let i = 5; i <= rootNum; i += 6) {
+    if (num % i === 0 || num % (i + 2) === 0) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function factorFinder(numOrString) {
   //Root ints are the only input that's return isn't an array
   if (rootFinder(numOrString)) {
@@ -67,10 +83,23 @@ function factorFinder(numOrString) {
   if (num < 0) {
     return ["-1", Math.abs(num)];
   }
+
+  if (isPrime(num)) {
+    return ["(", num - 1, ")"];
+  }
   
   //Create an array of all the input's factors
-  let numArray = [...Array(num + 1).keys()];
-  let numFactors = numArray.filter(element => num % element === 0);
+  let numFactors = [];
+  let upperLimit = Math.floor(Math.sqrt(num));
+  for (let i = 1; i <= upperLimit; i++) {
+    if (num % i === 0) {
+      numFactors.push(i);
+      if (i !== num / i) {
+        numFactors.push(num / i);
+      }
+    }
+  }
+  numFactors.sort((a, b) => a - b);
   let midIndex = Math.floor((numFactors.length - 1) / 2);
   
   if (numFactors.length % 2 !== 0) {
@@ -140,10 +169,10 @@ function inputHandler(e) {
   const validInput = new RegExp(/^-?([1-9]\d*|0)(\/-?([1-9]\d*|0))?$/);
   if (validInput.test(input)) {
     //checks to keep input within computational ability
-    if (input.length >=  9 && !input.includes("/")) {
+    if (input.length >=  16 && !input.includes("/")) {
       output.innerHTML = "Too large! (Do you 𝘸𝘢𝘯𝘵 the page to crash?)"
     }
-    else if ((input.slice(0, input.indexOf("/")).length > 7) || (input.slice(input.indexOf("/")).length > 8)) {
+    else if ((input.slice(0, input.indexOf("/")).length > 14) || (input.slice(input.indexOf("/")).length > 15)) {
       output.innerHTML = "Too large! (Do you 𝘸𝘢𝘯𝘵 the page to crash?)"
     } else {
       output.innerHTML = numberNamer(input);
