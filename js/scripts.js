@@ -112,8 +112,6 @@ function rootFactors(num) {
 
 function numberNamer(num) {
   
-  //Awful patch for exceptions
-  
   let factorArray = rootFactors(num);
   
   //If the input is prime and not the prefix, use a single Un rather than Hen and Sna (kind of hacky)
@@ -139,18 +137,20 @@ function numberNamer(num) {
 function inputHandler(e) {
   const output = document.querySelector("#numberResult");
   const input = e.target.value
-  const validInput = new RegExp(/^-?([1-9]+0*|0)(\/-?[\d]+)?$/);
-  if (input.length >=  8 && !input.includes("/")) {
+  const validInput = new RegExp(/^-?([1-9]\d*|0)(\/-?([1-9]\d*|0))?$/);
+  if (validInput.test(input)) {
+    //checks to keep input within computational ability
+    if (input.length >=  9 && !input.includes("/")) {
       output.innerHTML = "Too large! (Do you 𝘸𝘢𝘯𝘵 the page to crash?)"
-  } 
-  else if ((input.slice(0, input.indexOf("/")).length > 7) || (input.slice(input.indexOf("/")).length > 7)) {
-    output.innerHTML = "Too large! (Do you 𝘸𝘢𝘯𝘵 the page to crash?)"
+    }
+    else if ((input.slice(0, input.indexOf("/")).length > 7) || (input.slice(input.indexOf("/")).length > 8)) {
+      output.innerHTML = "Too large! (Do you 𝘸𝘢𝘯𝘵 the page to crash?)"
+    } else {
+      output.innerHTML = numberNamer(input);
+    }
   }
-  else if (validInput.test(input)) {
-    output.innerHTML = numberNamer(input);
-  } 
   else {
-    output.innerHTML = input === "" ? "None" : "Invalid Input!";
+      output.innerHTML = input === "" ? "None" : "Invalid Input!";
   }
 }
 
