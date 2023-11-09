@@ -3,27 +3,29 @@
 <head>
   <title>Number Base Namer</title>
 </head>
-<body class="bg-dark">
+<body class="bg-secondary ">
   <div class="container">
-    <div class="jumbotron">
-      <h1>Number Base Namer</h1>
-      <h3>Inspired by jan Misali</h3>
+    <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+      <div class="container-fluid py-5">
+        <h1 class="display-5 fw-bold">Number Base Namer</h1>
+        <p class="col-md-8 fs-4">Inspired by jan Misali</p>
+      </div>
     </div>
-    <div class="row text-white font-weight-bold text-center">
+    <div class="row fw-bold text-center">
       <div class="col-1"></div>
       <form id="numberForm" class="form-group col-4">
-          <div class="card bg-dark border-light">
-          <label for="numberInput" class="card-header pt-1 pb-1">Enter an integer or fraction</label>
+          <div class="card bg-primary-subtle">
+          <label for="numberInput" class="card-header pt-1 pb-1 ">Enter an integer or fraction</label>
           <div class="card-body">
-            <input id="numberInput" type="text" class="form-control">
+            <input id="numberInput" type="text" class="form-control" autocomplete="off">
           </div>
         </div>
       </form>
       <div class="col-6">
-        <div class="card bg-dark border-light">
+        <div class="card bg-primary-subtle">
           <p class="card-header pt-1 pb-1">Name</p>
           <div class="card-body">
-            <p id="numberResult" class="font-weight-normal mt-1 mb-2">None</p>
+            <p id="numberResult" class="fw-normal mt-1 mb-2">None</p>
           </div>
         </div>
       </div>
