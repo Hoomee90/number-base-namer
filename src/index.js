@@ -1,3 +1,6 @@
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 // Utility Logic
 function flagHandler(...arrays) {
   //look for and process prime flags for each array input individually
