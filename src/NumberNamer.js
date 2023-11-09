@@ -3,7 +3,7 @@ export default class NumberNamer {
     this.numberToName = num;
   }
 
-  static flagHandler(...arrays) {
+  static handleFlags(...arrays) {
     //look for and process prime flags for each array input individually
     arrays.forEach(subarray => {
       if (subarray[subarray.length - 1] === ")" && subarray[0] === "(") {
@@ -149,9 +149,9 @@ export default class NumberNamer {
     if (factorArray.includes("/")) {
       let numerator = factorArray.splice(0, factorArray.indexOf("/"));
       let denominator = factorArray.splice(factorArray.indexOf("/") + 1);
-      factorArray = NumberNamer.flagHandler(numerator, denominator);
+      factorArray = NumberNamer.handleFlags(numerator, denominator);
     } else {
-      factorArray = NumberNamer.flagHandler(factorArray);
+      factorArray = NumberNamer.handleFlags(factorArray);
     }
     
     //turn integer array into single string with word roots
