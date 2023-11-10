@@ -19,7 +19,7 @@ export default class NumberNamer {
   }
 
   static isPrime(num) {
-    if (num === 3) {
+    if (num === 2 || num === 3) {
       return true;
     }
     if (num === 1 || num % 2 === 0 || num % 3 === 0) {
@@ -28,10 +28,10 @@ export default class NumberNamer {
     let rootNum = Math.sqrt(num)
     for (let i = 5; i <= rootNum; i += 6) {
       if (num % i === 0 || num % (i + 2) === 0) {
-        return true;
+        return false;
       }
     }
-    return false;
+    return true;
   }
 
   static findRoot(num, isPrefix = true, hasPrefix = true) {
