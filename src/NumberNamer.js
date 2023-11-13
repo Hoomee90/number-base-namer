@@ -62,11 +62,10 @@ export default class NumberNamer {
       "100" : isPrefix ? "hecto":"centesimal"
     };
     //Look up both strings or integers
-    const numString = (typeof num === "string" ? num : num.toString());
-    if (rootValues[numString]) {
-      return rootValues[numString];
+    // const numString = (typeof num === "string" ? num : num.toString());
+    if (rootValues[num]) {
+      return rootValues[num];
     }
-    return null;
   }
 
   factorFinder(numOrString = this.numberToName) {

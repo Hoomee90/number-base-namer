@@ -42,3 +42,50 @@ describe(`isPrime`, () => {
     expect(NumberNamer.isPrime(259)).toEqual(false);
   });
 });
+
+describe(`findRoot`, () => {
+  
+  const testData = {
+    "ONE" : "uni",
+    "0" : "null",
+    "-1": "nega",
+    "/" : "vöt",
+    "[" : "un",
+    "(" : "hen",
+    ")" : "sna",
+    "2" : "bi",
+    "3" : "tri",
+    "4" : "tetra",
+    "5" : "penta",
+    "6" : "hexa",
+    "7" : "hepta",
+    "8" : "octo",
+    "9" : "enna",
+    "10" : "deca",
+    "11" : "leva",
+    "12" : "doza",
+    "13" : "baker",
+    "16" : "tesser",
+    "17" : "mal",
+    "20" : "icosi",
+    "36" : "feta",
+    "100" : "hecto"
+  }
+
+  test(`should return null on invalid input`, () => {
+    expect(NumberNamer.findRoot("incorrect")).toBeNull;
+  });
+
+  Object.entries(testData).forEach(([key, expectedValue]) => {
+    
+    test(`should return the correct value for ${key}`, () => {
+    expect(NumberNamer.findRoot(key)).toEqual(expectedValue);
+    });
+  });
+
+  test(`should return a string for all valid inputs`, () => {
+    Object.keys(testData).forEach(key => {
+    expect(typeof NumberNamer.findRoot(key)).toEqual(`string`);
+    });
+  });
+});
