@@ -68,7 +68,7 @@ export default class NumberNamer {
     }
   }
 
-  factorFinder(numOrString = this.numberToName) {
+  static factorFinder(numOrString) {
     //Root ints are the only input that's return isn't an array
     if (NumberNamer.findRoot(numOrString)) {
       return numOrString;
@@ -126,23 +126,23 @@ export default class NumberNamer {
       right++;
     }
     //If there's no roots in the factors it's prime or it's 1
-    return partialMatch || (numFactors[1] === 1 ? 1 : ["(", numFactors[numFactors.length - 1] - 1, ")"]);
+    return partialMatch || 1;
   }
 
-  rootFactors(num = this.numberToName) {
+  static rootFactors(num) {
     //Recursively factor all arrays outputed by factoring
-    const factorResult = this.factorFinder(num);
+    const factorResult = NumberNamer.factorFinder(num);
     
     if (Array.isArray(factorResult)) {
-      return factorResult.flatMap(this.rootFactors);
+      return factorResult.flatMap(NumberNamer.rootFactors);
     } else {
       return [factorResult];
     }
   }
 
-  nameNum() {
+  nameNum(num) {
     
-    let factorArray = this.rootFactors(this.numberToName);
+    let factorArray = NumberNamer.rootFactors(num);
     
     //If the input is prime and not the prefix, use a single Un rather than Hen and Sna (kind of hacky)
     if (factorArray.includes("/")) {
