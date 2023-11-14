@@ -1,14 +1,18 @@
 export default class NumberNamer {
-  constructor(num) {
-    this.numberToName = num;
+  constructor() {
+    this.memo = {
+      18: [3, 6]
+    };
   }
 
   static handleFlags(...arrays) {
     //look for and process prime flags for each array input individually
     arrays.forEach(subarray => {
-      if (subarray[subarray.length - 1] === ")" && subarray[0] === "(") {
-        subarray.pop();
-        subarray[0] = "[";
+      if (subarray[subarray.length - 1] === ")") {
+        const lastOpenParenIndex = subarray.findLastIndex((el) => el === `(`)
+        subarray.pop()
+        subarray.splice(lastOpenParenIndex, 1, "[");
+        console.log(subarray);
       }
       //process 1s in numerators and denominators
       if (subarray.length === 1 && subarray[0] === 1) {
@@ -61,18 +65,34 @@ export default class NumberNamer {
       "36" : isPrefix ? "feta" : "niftimal",
       "100" : isPrefix ? "hecto":"centesimal"
     };
-    //Look up both strings or integers
-    // const numString = (typeof num === "string" ? num : num.toString());
     if (rootValues[num]) {
       return rootValues[num];
     }
   }
 
-  static factorFinder(numOrString) {
+  static getFactorPairs(num) {
+    
+    //Create an array of all the input's factors
+    let numFactors = [];
+    let upperLimit = Math.floor(Math.sqrt(num));
+    for (let i = 2; i <= upperLimit; i++) {
+      if (num % i === 0) {
+        let factorPair = [i, num / i];
+        numFactors.push(factorPair);
+        }
+      }
+      return numFactors;
+    }
+
+  factorShortest(numOrString) {
+
     //Root ints are the only input that's return isn't an array
     if (NumberNamer.findRoot(numOrString)) {
-      return numOrString;
+      return [numOrString];
     }
+
+    if (this.memo[numOrString]) return this.memo[numOrString];
+
     //convert fractions into arrays of [numerator, "/", denominator]
     if (typeof numOrString === "string" && numOrString.includes("/")) {
       let fractionArray = numOrString.split("/", 2);
@@ -85,73 +105,86 @@ export default class NumberNamer {
       return ["-1", Math.abs(num)];
     }
 
-    if (NumberNamer.isPrime(num)) {
-      return ["(", num - 1, ")"];
+    if (num === 1) {
+      return [1];
+    }
+
+    // if (NumberNamer.isPrime(num)) {
+    //   this.memo[num] = ["(", num - 1, ")"];
+    //   return this.memo[num];
+    // }
+    
+    let shortest = null;
+    let combination = [];
+    let factorPairs = (NumberNamer.getFactorPairs(num))
+
+    if (factorPairs.length === 0) {
+      // let [factor1, factor2, factor3] = pair;
+      shortest = ["("].concat(this.factorShortest(num - 1)).concat([")"]);
+    } else for (const pair of factorPairs) {
+      let [factor1, factor2] = pair;
+      combination = this.factorShortest(factor1).concat(this.factorShortest(factor2));
+
+      if (!shortest || combination.length < shortest.length) {
+        shortest = combination;
+      }
     }
     
-    //Create an array of all the input's factors
-    let numFactors = [];
-    let upperLimit = Math.floor(Math.sqrt(num));
-    for (let i = 1; i <= upperLimit; i++) {
-      if (num % i === 0) {
-        numFactors.push(i);
-        if (i !== num / i) {
-          numFactors.push(num / i);
-        }
-      }
-    }
-    numFactors.sort((a, b) => a - b);
-    let midIndex = Math.floor((numFactors.length - 1) / 2);
-    
-    if (numFactors.length % 2 !== 0) {
-      numFactors.splice(midIndex, 0, numFactors[midIndex]);
-    }
-    let left = midIndex;
-    let right = midIndex + 1;
-    let partialMatch = null;
-    let nonPrimePartialMatch = null;
+    this.memo[num] = shortest;
+    return shortest;
 
-    //Check array for pairs of roots from the middle outwards
-    while (left >= 0 || right < numFactors.length) {
-      const leftPass = NumberNamer.findRoot(numFactors[left]);
-      const rightPass = NumberNamer.findRoot(numFactors[right]);
+  //   let midIndex = Math.floor((numFactors.length - 1) / 2);
+  //   let left = midIndex;
+  //   let right = midIndex + 1;
+  //   let partialMatch = null;
+  //   let nonPrimePartialMatch = null;
 
-      if (leftPass && rightPass) {
-        return [numFactors[left], numFactors[right]];
-      }
-      if (!nonPrimePartialMatch && (leftPass || rightPass)) {
-        if (leftPass && !NumberNamer.isPrime(numFactors[right])) {
-          nonPrimePartialMatch = [numFactors[left], numFactors[right]];
-        } else if (rightPass && !NumberNamer.isPrime(numFactors[left])) {
-          nonPrimePartialMatch = [numFactors[right], numFactors[left]];
-        }
-      }
+  //   //Check array for pairs of roots from the middle outwards
+  //   while (left >= 0 || right < numFactors.length) {
+  //     const leftPass = NumberNamer.findRoot(numFactors[left]);
+  //     const rightPass = NumberNamer.findRoot(numFactors[right]);
 
-      if (!partialMatch && (leftPass || rightPass)) {
-        partialMatch = [numFactors[right], numFactors[left]];
-      }
+  //     if (leftPass && rightPass) {
+  //       return [numFactors[left], numFactors[right]];
+  //     }
 
-      left--;
-      right++;
-    }
-    //If there's no roots in the factors it's prime or it's 1
-    return nonPrimePartialMatch || partialMatch || 1;
+  //     if (!nonPrimePartialMatch && (leftPass || rightPass)) {
+  //       if (leftPass && !NumberNamer.isPrime(numFactors[right])) {
+  //         nonPrimePartialMatch = [numFactors[left], numFactors[right]];
+  //       } else if (rightPass && !NumberNamer.isPrime(numFactors[left])) {
+  //         nonPrimePartialMatch = [numFactors[right], numFactors[left]];
+  //       }
+  //     }
+  //     if (!partialMatch && (leftPass || rightPass)) {
+  //       partialMatch = [numFactors[right], numFactors[left]];
+  //     }
+
+  //     left--;
+  //     right++;
+  //   }
+  //   //If there's no roots in the factors it's prime
+  //   return nonPrimePartialMatch || partialMatch || [`(`, num - 1,`)`];
+  // }
   }
 
-  static rootFactors(num) {
-    //Recursively factor all arrays outputed by factoring
-    const factorResult = NumberNamer.factorFinder(num);
+  // static rootFactors(num) {
+  //   //Recursively factor all arrays outputed by factoring
+  //   const factorResult = NumberNamer.factorShortest(num);
 
-    if (Array.isArray(factorResult)) {
-      return factorResult.flatMap(NumberNamer.rootFactors);
-    } else {
-      return [factorResult];
-    }
+  //   if (Array.isArray(factorResult)) {
+  //     return factorResult.flatMap(NumberNamer.rootFactors);
+  //   } else {
+  //     return [factorResult];
+  //   }
+  // }
+
+  showMemo() {
+    return this.memo;
   }
 
-  static nameNum(num) {
+  nameNum(num) {
     
-    let factorArray = NumberNamer.rootFactors(num);
+    let factorArray = this.factorShortest(num);
     
     //If the input is prime and not the prefix, use a single Un rather than Hen and Sna (kind of hacky)
     if (factorArray.includes("/")) {
