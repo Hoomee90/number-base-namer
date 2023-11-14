@@ -127,7 +127,7 @@ describe (`factorFinder`, () => {
   });
 
   test(`should return the two closest matching factors if all pairs only have one that passes ${NumberNamer.findRoot} value`, () => {
-    expect(NumberNamer.factorFinder(`666`)).toEqual([74, 9]);
+    expect(NumberNamer.factorFinder(`666`)).toEqual([9, 74]);
     expect(NumberNamer.factorFinder(`111111`)).toEqual([8547, 13]);
   });
 });
@@ -139,6 +139,7 @@ describe (`rootFactors`, () => {
   });
 
   test(`should return all the input completely factorized by ${NumberNamer.factorFinder}`, () => {
+    expect(NumberNamer.rootFactors(1025)).toEqual([`(`, 8, 8, 16, `)`]);
     expect(NumberNamer.rootFactors(413)).toEqual([`(`, `(`, 4, 7, `)`, 2, `)`, 7]);
   });
 });

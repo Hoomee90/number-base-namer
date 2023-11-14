@@ -109,6 +109,7 @@ export default class NumberNamer {
     let left = midIndex;
     let right = midIndex + 1;
     let partialMatch = null;
+    let nonPrimePartialMatch = null;
 
     //Check array for pairs of roots from the middle outwards
     while (left >= 0 || right < numFactors.length) {
@@ -118,6 +119,14 @@ export default class NumberNamer {
       if (leftPass && rightPass) {
         return [numFactors[left], numFactors[right]];
       }
+      if (!nonPrimePartialMatch && (leftPass || rightPass)) {
+        if (leftPass && !NumberNamer.isPrime(numFactors[right])) {
+          nonPrimePartialMatch = [numFactors[left], numFactors[right]];
+        } else if (rightPass && !NumberNamer.isPrime(numFactors[left])) {
+          nonPrimePartialMatch = [numFactors[right], numFactors[left]];
+        }
+      }
+
       if (!partialMatch && (leftPass || rightPass)) {
         partialMatch = [numFactors[right], numFactors[left]];
       }
@@ -126,13 +135,13 @@ export default class NumberNamer {
       right++;
     }
     //If there's no roots in the factors it's prime or it's 1
-    return partialMatch || 1;
+    return nonPrimePartialMatch || partialMatch || 1;
   }
 
   static rootFactors(num) {
     //Recursively factor all arrays outputed by factoring
     const factorResult = NumberNamer.factorFinder(num);
-    
+
     if (Array.isArray(factorResult)) {
       return factorResult.flatMap(NumberNamer.rootFactors);
     } else {
@@ -140,7 +149,7 @@ export default class NumberNamer {
     }
   }
 
-  nameNum(num) {
+  static nameNum(num) {
     
     let factorArray = NumberNamer.rootFactors(num);
     
