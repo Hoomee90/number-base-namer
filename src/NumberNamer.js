@@ -1,25 +1,32 @@
 export default class NumberNamer {
   constructor() {
     this.memo = {
-      18: [3, 6]
     };
   }
 
-  static handleFlags(...arrays) {
-    //look for and process prime flags for each array input individually
-    arrays.forEach(subarray => {
-      if (subarray[subarray.length - 1] === ")") {
-        const lastOpenParenIndex = subarray.findLastIndex((el) => el === `(`)
-        subarray.pop()
-        subarray.splice(lastOpenParenIndex, 1, "[");
-        console.log(subarray);
-      }
+  static handleFlags(array) {
+    console.log('running')
+    //look for and process prime flags
+      let toReplace = 0
+
+        for (let i = array.length - 1; i < 0; i--) {
+          console.log(i);
+          if (array[i] === `)`) {
+            array.pop();
+            toReplace++;
+          }
+          if (array[i] === `(` && toReplace) {
+            array[i] = '[';
+            toReplace--;
+          }
+        }
+
       //process 1s in numerators and denominators
-      if (subarray.length === 1 && subarray[0] === 1) {
-        subarray[0] = "ONE";
+      if (array.length === 1 && array[0] === 1) {
+        array[0] = "ONE";
       }
-    });
-    return arrays.reduce((accumulator, element, index) => accumulator.concat(index > 0 ? element.toSpliced(0, 0, "/") : element), []);
+
+    return array
   }
 
   static isPrime(num) {
@@ -108,18 +115,12 @@ export default class NumberNamer {
     if (num === 1) {
       return [1];
     }
-
-    // if (NumberNamer.isPrime(num)) {
-    //   this.memo[num] = ["(", num - 1, ")"];
-    //   return this.memo[num];
-    // }
     
     let shortest = null;
     let combination = [];
     let factorPairs = (NumberNamer.getFactorPairs(num))
 
     if (factorPairs.length === 0) {
-      // let [factor1, factor2, factor3] = pair;
       shortest = ["("].concat(this.factorShortest(num - 1)).concat([")"]);
     } else for (const pair of factorPairs) {
       let [factor1, factor2] = pair;
@@ -132,51 +133,7 @@ export default class NumberNamer {
     
     this.memo[num] = shortest;
     return shortest;
-
-  //   let midIndex = Math.floor((numFactors.length - 1) / 2);
-  //   let left = midIndex;
-  //   let right = midIndex + 1;
-  //   let partialMatch = null;
-  //   let nonPrimePartialMatch = null;
-
-  //   //Check array for pairs of roots from the middle outwards
-  //   while (left >= 0 || right < numFactors.length) {
-  //     const leftPass = NumberNamer.findRoot(numFactors[left]);
-  //     const rightPass = NumberNamer.findRoot(numFactors[right]);
-
-  //     if (leftPass && rightPass) {
-  //       return [numFactors[left], numFactors[right]];
-  //     }
-
-  //     if (!nonPrimePartialMatch && (leftPass || rightPass)) {
-  //       if (leftPass && !NumberNamer.isPrime(numFactors[right])) {
-  //         nonPrimePartialMatch = [numFactors[left], numFactors[right]];
-  //       } else if (rightPass && !NumberNamer.isPrime(numFactors[left])) {
-  //         nonPrimePartialMatch = [numFactors[right], numFactors[left]];
-  //       }
-  //     }
-  //     if (!partialMatch && (leftPass || rightPass)) {
-  //       partialMatch = [numFactors[right], numFactors[left]];
-  //     }
-
-  //     left--;
-  //     right++;
-  //   }
-  //   //If there's no roots in the factors it's prime
-  //   return nonPrimePartialMatch || partialMatch || [`(`, num - 1,`)`];
-  // }
   }
-
-  // static rootFactors(num) {
-  //   //Recursively factor all arrays outputed by factoring
-  //   const factorResult = NumberNamer.factorShortest(num);
-
-  //   if (Array.isArray(factorResult)) {
-  //     return factorResult.flatMap(NumberNamer.rootFactors);
-  //   } else {
-  //     return [factorResult];
-  //   }
-  // }
 
   showMemo() {
     return this.memo;
@@ -188,9 +145,9 @@ export default class NumberNamer {
     
     //If the input is prime and not the prefix, use a single Un rather than Hen and Sna (kind of hacky)
     if (factorArray.includes("/")) {
-      let numerator = factorArray.splice(0, factorArray.indexOf("/"));
-      let denominator = factorArray.splice(factorArray.indexOf("/") + 1);
-      factorArray = NumberNamer.handleFlags(numerator, denominator);
+      let numerator = factorArray.slice(0, factorArray.indexOf("/"));
+      let denominator = factorArray.slice(factorArray.indexOf("/") + 1);
+      factorArray = NumberNamer.handleFlags(numerator).concat("/", NumberNamer.handleFlags(denominator));
     } else {
       factorArray = NumberNamer.handleFlags(factorArray);
     }

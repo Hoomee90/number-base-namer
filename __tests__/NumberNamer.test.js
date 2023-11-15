@@ -35,9 +35,9 @@ describe(`NumberNamer`, () => {
 });
 
 describe(`handleFlags`, () => {
-  test(`should return inputted arrays concatenated together with slashes`, () => {
-    expect(NumberNamer.handleFlags([`foo`], [`bar`])).toEqual([`foo`, `/`, `bar`]);
-  });
+  // test(`should return inputted arrays concatenated together with slashes`, () => {
+  //   expect(NumberNamer.handleFlags([`foo`], [`bar`])).toEqual([`foo`, `/`, `bar`]);
+  // });
 
   test(`should turn starting and ending parens in arrays into a single starting bracket`, () => {
     expect(NumberNamer.handleFlags([`(`, `foo`, `)`])).toEqual([`[`, `foo`]);
@@ -45,6 +45,10 @@ describe(`handleFlags`, () => {
 
   test(`should turn arrays of only the int 1 into the string ONE`, () => {
     expect(NumberNamer.handleFlags([1])).toEqual([`ONE`])
+  });
+
+  test(`should all parens which close at the end into single brackets`, () => {
+    expect(NumberNamer.handleFlags([5, 7, '(', 4, '[', 2, 36, ')'])).toEqual([5, 7, '[', 4, '[', 2, 36])
   });
 });
 
@@ -117,10 +121,15 @@ describe (`factorShortest`, () => {
   test(`should return 1 as 1`, () => {
     expect(nameNumObject.factorShortest(`1`)).toEqual([1]);
   });
+  
+  test(`should return a combination of factors. all of which have a NumberNamer.findRoot value`, () => {
+    expect(nameNumObject.factorShortest(`666`)).toEqual([2, 9, '(', 36, ')']);
+    expect(nameNumObject.factorShortest(`111111`)).toEqual([3, 7, 11, 13, '(', 36, ')']);
+  });
 
   test(`should return primes as an array of num -1 with flags`, () => {
-    expect(nameNumObject.factorShortest(`19`)).toEqual([`(`, 18, `)`]);
-    expect(nameNumObject.factorShortest(`1997`)).toEqual([`(`, 1996, `)`]);
+    expect(nameNumObject.factorShortest(`19`)).toEqual([`(`, 3, 6, `)`]);
+    expect(nameNumObject.factorShortest(`1997`)).toEqual(['(', 4, '(', 6, '(', 2, '(', 2, 20, ')', ')', ')', ')']);
   });
 
   test(`should return strings of fractions as an array of the numerator and denominator with flag`, () => {
@@ -133,31 +142,8 @@ describe (`factorShortest`, () => {
     expect(nameNumObject.factorShortest(`-612`)).toEqual([`-1`, 612]);
   });
 
-  test(`should return primes as an array of num -1 with flags`, () => {
-    expect(nameNumObject.factorShortest(`19`)).toEqual([`(`, 18, `)`]);
-    expect(nameNumObject.factorShortest(`1997`)).toEqual([`(`, 1996, `)`]);
-  });
-
   test(`should return the two matching factors that have a nameNumObject.findRoot value`, () => {
     expect(nameNumObject.factorShortest(`32`)).toEqual([2, 16]);
     expect(nameNumObject.factorShortest(`66`)).toEqual([6, 11]);
   });
-
-  test(`should return the two closest matching factors if all pairs only have one that passes NumberNamer.findRoot value`, () => {
-    expect(nameNumObject.factorShortest(`666`)).toEqual([9, 74]);
-    expect(nameNumObject.factorShortest(`111111`)).toEqual([13, 8547]);
-  });
-
 });
-
-// describe (`rootFactors`, () => { 
-//   test(`should return the input in an array if it passes through NumberNamer.factorFinder unchanged`, () => {
-//     expect(NumberNamer.rootFactors(1)).toEqual([1]);
-//     expect(NumberNamer.rootFactors(`36`)).toEqual([`36`]);
-//   });
-
-//   test(`should return all the input completely factorized by NumberNamer.factorFinder`, () => {
-//     expect(NumberNamer.rootFactors(1025)).toEqual([`(`, 8, 8, 16, `)`]);
-//     expect(NumberNamer.rootFactors(413)).toEqual([`(`, `(`, 4, 7, `)`, 2, `)`, 7]);
-//   });
-// });
