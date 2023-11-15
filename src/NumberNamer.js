@@ -9,7 +9,7 @@ export default class NumberNamer {
     //look for and process prime flags
       let toReplace = 0
 
-        for (let i = array.length - 1; i < 0; i--) {
+        for (let i = array.length - 1; i >= 0; i--) {
           console.log(i);
           if (array[i] === `)`) {
             array.pop();

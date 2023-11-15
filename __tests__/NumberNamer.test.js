@@ -35,20 +35,17 @@ describe(`NumberNamer`, () => {
 });
 
 describe(`handleFlags`, () => {
-  // test(`should return inputted arrays concatenated together with slashes`, () => {
-  //   expect(NumberNamer.handleFlags([`foo`], [`bar`])).toEqual([`foo`, `/`, `bar`]);
-  // });
 
   test(`should turn starting and ending parens in arrays into a single starting bracket`, () => {
     expect(NumberNamer.handleFlags([`(`, `foo`, `)`])).toEqual([`[`, `foo`]);
   })
 
   test(`should turn arrays of only the int 1 into the string ONE`, () => {
-    expect(NumberNamer.handleFlags([1])).toEqual([`ONE`])
+    expect(NumberNamer.handleFlags([1])).toEqual([`ONE`]);
   });
 
-  test(`should all parens which close at the end into single brackets`, () => {
-    expect(NumberNamer.handleFlags([5, 7, '(', 4, '[', 2, 36, ')'])).toEqual([5, 7, '[', 4, '[', 2, 36])
+  test(`should turn all parens which close at the end into single brackets at open paren's index`, () => {
+    expect(NumberNamer.handleFlags([5, 7, '(', 4, '(', 2, 36, ')', ')'])).toEqual([5, 7, '[', 4, '[', 2, 36]);
   });
 });
 
@@ -128,7 +125,7 @@ describe (`factorShortest`, () => {
   });
 
   test(`should return primes as an array of num -1 with flags`, () => {
-    expect(nameNumObject.factorShortest(`19`)).toEqual([`(`, 3, 6, `)`]);
+    expect(nameNumObject.factorShortest(`19`)).toEqual([`(`, 2, 9, `)`]);
     expect(nameNumObject.factorShortest(`1997`)).toEqual(['(', 4, '(', 6, '(', 2, '(', 2, 20, ')', ')', ')', ')']);
   });
 
