@@ -1,22 +1,30 @@
 export default class NumberNamer {
   constructor() {
     this.memo = {
+    1 : [1],
+    "-1" : ["-1"]
     };
   }
 
   static handleFlags(array) {
     //look for and process prime flags
-      let toReplace = 0
+      let roReplaceNum = 0;
+      let replacing = true;
 
         for (let i = array.length - 1; i >= 0; i--) {
-          if (array[i] === `)`) {
-            array.splice(i, 1);
-            i++;
-            toReplace++;
-          } 
-          else if (array[i] === `(` && toReplace) {
+          if (replacing) {
+            if (array[i] === `)`) {
+              array.splice(i, 1);
+              i++;
+              roReplaceNum++;
+            }
+            else {
+              replacing = false;
+            }
+          }
+          if (array[i] === `(` && roReplaceNum) {
             array[i] = '[';
-            toReplace--;
+            roReplaceNum--;
           }
           // sort all nums smallest to largest
           // else if (/\d/.test(array[i]) && /\d/.test(array[i - 1]) && array[i] < array[i - 1]){
@@ -109,17 +117,12 @@ export default class NumberNamer {
     //convert fractions into arrays of [numerator, "/", denominator]
     if (typeof numOrString === "string" && numOrString.includes("/")) {
       let fractionArray = numOrString.split("/", 2);
-      fractionArray.splice(1, 0, "/");
-      return fractionArray.map(element => element === "/" ? element : parseInt(element));
+      return this.factorShortest(fractionArray[0]).concat("/", this.factorShortest(fractionArray[1]));
     }
     let num = parseInt(numOrString);
     
     if (num < 0) {
-      return ["-1", Math.abs(num)];
-    }
-
-    if (num === 1) {
-      return [1];
+      return ["-1", this.factorShortest(Math.abs(num))];
     }
     
     let shortest = null;
@@ -150,7 +153,7 @@ export default class NumberNamer {
     if (factorArray.includes("/")) {
       let numerator = factorArray.slice(0, factorArray.indexOf("/"));
       let denominator = factorArray.slice(factorArray.indexOf("/") + 1);
-      factorArray = NumberNamer.handleFlags(numerator).concat("/", NumberNamer.handleFlags(denominator));
+      factorArray = (numerator.length === 1 ? numerator : NumberNamer.handleFlags(numerator)).concat("/", denominator.length === 1 ? denominator : NumberNamer.handleFlags(denominator));
     } else {
       factorArray = NumberNamer.handleFlags(factorArray);
     }
