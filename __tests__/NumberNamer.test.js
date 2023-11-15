@@ -45,11 +45,20 @@ describe(`handleFlags`, () => {
   });
 
   test(`should turn all parens which close at the end into single brackets at open paren's index`, () => {
-    expect(NumberNamer.handleFlags([5, 7, '(', 4, '(', 2, 36, ')', ')'])).toEqual([5, 7, '[', 4, '[', 2, 36]);
+    expect(NumberNamer.handleFlags([5, 7, '(', 4, '(', 8, 9, ')', ')'])).toEqual([5, 7, '[', 4, '[', 8, 9]);
+  });
+
+  test(`should sort all nums smallest to largest`, () => {
+    expect(NumberNamer.handleFlags([20, 20, 6, 100])).toEqual([6, 20, 20, 100]);
+  });
+
+  test(`should respect parens when sorting`, () => {
+    expect(NumberNamer.handleFlags([20, 20, 6, 100])).toEqual([6, 20, 20, 100]);
   });
 });
 
 describe(`isPrime`, () => {
+
   test(`should correctly determine one, even, and multiples of three to be not prime`, () => {
     expect(NumberNamer.isPrime(1)).toEqual(false);
     expect(NumberNamer.isPrime(4)).toEqual(false);
@@ -120,13 +129,13 @@ describe (`factorShortest`, () => {
   });
   
   test(`should return a combination of factors. all of which have a NumberNamer.findRoot value`, () => {
-    expect(nameNumObject.factorShortest(`666`)).toEqual([2, 9, '(', 36, ')']);
-    expect(nameNumObject.factorShortest(`111111`)).toEqual([3, 7, 11, 13, '(', 36, ')']);
+    expect(nameNumObject.factorShortest(`666`)).toEqual([3, 6, '(', 36, ')']);
+    expect(nameNumObject.factorShortest(`111111`)).toEqual([13, 3, 7, 11,'(', 36, ')']);
   });
 
   test(`should return primes as an array of num -1 with flags`, () => {
-    expect(nameNumObject.factorShortest(`19`)).toEqual([`(`, 2, 9, `)`]);
-    expect(nameNumObject.factorShortest(`1997`)).toEqual(['(', 4, '(', 6, '(', 2, '(', 2, 20, ')', ')', ')', ')']);
+    expect(nameNumObject.factorShortest(`19`)).toEqual([`(`, 3, 6, `)`]);
+    expect(nameNumObject.factorShortest(`1997`)).toEqual(['(', 4, '(', 6, '(', 2, '(', 5, 8, ')', ')', ')', ')']);
   });
 
   test(`should return strings of fractions as an array of the numerator and denominator with flag`, () => {
@@ -140,7 +149,7 @@ describe (`factorShortest`, () => {
   });
 
   test(`should return the two matching factors that have a nameNumObject.findRoot value`, () => {
-    expect(nameNumObject.factorShortest(`32`)).toEqual([2, 16]);
+    expect(nameNumObject.factorShortest(`32`)).toEqual([4, 8]);
     expect(nameNumObject.factorShortest(`66`)).toEqual([6, 11]);
   });
 });

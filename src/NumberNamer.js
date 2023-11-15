@@ -5,20 +5,26 @@ export default class NumberNamer {
   }
 
   static handleFlags(array) {
-    console.log('running')
     //look for and process prime flags
       let toReplace = 0
 
         for (let i = array.length - 1; i >= 0; i--) {
-          console.log(i);
           if (array[i] === `)`) {
-            array.pop();
+            array.splice(i, 1);
+            i++;
             toReplace++;
-          }
-          if (array[i] === `(` && toReplace) {
+          } 
+          else if (array[i] === `(` && toReplace) {
             array[i] = '[';
             toReplace--;
           }
+          // sort all nums smallest to largest
+          // else if (/\d/.test(array[i]) && /\d/.test(array[i - 1]) && array[i] < array[i - 1]){
+          //   let toSwap = array[i];
+          //   array[i] = array[i - 1];
+          //   array[i - 1] = toSwap;
+          // }
+          // ['(', 8, 5, ')', 3]
         }
 
       //process 1s in numerators and denominators
@@ -124,19 +130,16 @@ export default class NumberNamer {
       shortest = ["("].concat(this.factorShortest(num - 1)).concat([")"]);
     } else for (const pair of factorPairs) {
       let [factor1, factor2] = pair;
-      combination = this.factorShortest(factor1).concat(this.factorShortest(factor2));
+      combination = this.factorShortest(factor2).concat(this.factorShortest(factor1));
 
-      if (!shortest || combination.length < shortest.length) {
+      if (!shortest || combination.length <= shortest.length) {
         shortest = combination;
       }
     }
     
     this.memo[num] = shortest;
+    console.log(this.memo)
     return shortest;
-  }
-
-  showMemo() {
-    return this.memo;
   }
 
   nameNum(num) {
@@ -151,7 +154,7 @@ export default class NumberNamer {
     } else {
       factorArray = NumberNamer.handleFlags(factorArray);
     }
-    
+    console.log(factorArray);
     //turn integer array into single string with word roots
     let baseName = factorArray.reduce((accumulator, element, index) => accumulator + NumberNamer.findRoot(element, factorArray.length - 1 !== index, index > 0), "");
     
