@@ -28,16 +28,28 @@ const testData = {
 }
 
 describe(`NumberNamer`, () => {
+
   test(`should correctly create a NumberNamer Object with a value to calculate`, () => {
     const nameNumObject = new NumberNamer();
     expect(typeof nameNumObject.memo).toEqual('object');
   });
 });
 
+describe(`sortNestedArray`, () => {
+
+  test(`should return arrays without parens unmutated`, () => {
+    expect(NumberNamer.sortNestedArray([3, "(", 4, 12, "(", 7, 9, ")", 17, ")", 4,  32])).toEqual([3, 4, 32, "(", 4, 12, 17, "(", 7, 9, ")", ")"]);
+  });
+
+  test(`should return array sorted so that all paren pairs are at the local end of the expression`, () => {
+    expect(NumberNamer.sortNestedArray([7, 3, 20])).toEqual([3, 7, 20]);
+  });
+});
+
 describe(`handleFlags`, () => {
 
   test(`should turn starting and ending parens in arrays into a single starting bracket`, () => {
-    expect(NumberNamer.handleFlags([`(`, `foo`, `)`])).toEqual([`[`, `foo`]);
+    expect(NumberNamer.handleFlags([`(`, 2, `)`])).toEqual([`[`, 2]);
   })
 
   test(`should turn arrays of only the int 1 into the string ONE`, () => {

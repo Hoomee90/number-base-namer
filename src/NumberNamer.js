@@ -2,45 +2,73 @@ export default class NumberNamer {
   constructor() {
     this.memo = {
     1 : [1],
-    "-1" : ["-1"]
+    "-1" : [-1]
     };
+  }
+
+  static sortNestedArray(arr) {
+    const sortAndFlatten = (nestedArr) => {
+      //sort inner numbers
+      const sortedNumbers = nestedArr.filter(item => typeof item === `number`).sort((a, b) => a - b);
+      //rebuild the sorted array
+      let result = [];
+      nestedArr.forEach(item => {
+        if (Array.isArray(item)) {
+          result.push(`(`, ...sortAndFlatten(item), `)`);
+        }
+      });
+
+      return [...sortedNumbers, ...result]
+    };
+
+    //create nested array structure based on parens
+    const createNestedArray = (inputArr) => {
+      let stack = [[]];
+      inputArr.forEach(item => {
+        if (item === `(`) {
+          const newArray = [];
+          stack[stack.length - 1].push(newArray);
+          stack.push(newArray);
+        } else if (item === ')') {
+          stack.pop()
+        } else {
+          stack[stack.length - 1].push(item)
+        }
+      });
+      return stack[0];
+    };
+
+    const nestedArray = createNestedArray(arr)
+
+    console.log(sortAndFlatten(nestedArray));
+    return sortAndFlatten(nestedArray);
   }
 
   static handleFlags(array) {
     //look for and process prime flags
       let roReplaceNum = 0;
       let replacing = true;
+      let sortedArray = NumberNamer.sortNestedArray(array)
 
-        for (let i = array.length - 1; i >= 0; i--) {
-          if (replacing) {
-            if (array[i] === `)`) {
-              array.splice(i, 1);
-              i++;
-              roReplaceNum++;
-            }
-            else {
-              replacing = false;
-            }
+        for (let i = sortedArray.length - 1; i >= 0; i--) {
+          if (sortedArray[i] === `)` && replacing) {
+            sortedArray.splice(i, 1);
+            i++;
+            roReplaceNum++;
           }
-          if (array[i] === `(` && roReplaceNum) {
-            array[i] = '[';
+          if (sortedArray[i] === `(` && roReplaceNum) {
+            sortedArray[i] = '[';
             roReplaceNum--;
+            replacing = false;
           }
-          // sort all nums smallest to largest
-          // else if (/\d/.test(array[i]) && /\d/.test(array[i - 1]) && array[i] < array[i - 1]){
-          //   let toSwap = array[i];
-          //   array[i] = array[i - 1];
-          //   array[i - 1] = toSwap;
-          // }
-          // ['(', 8, 5, ')', 3]
         }
 
       //process 1s in numerators and denominators
-      if (array.length === 1 && array[0] === 1) {
-        array[0] = "ONE";
+      if (sortedArray.length === 1 && sortedArray[0] === 1) {
+        sortedArray[0] = "ONE";
       }
 
-    return array
+    return sortedArray
   }
 
   static isPrime(num) {
@@ -98,8 +126,8 @@ export default class NumberNamer {
     let upperLimit = Math.floor(Math.sqrt(num));
     for (let i = 2; i <= upperLimit; i++) {
       if (num % i === 0) {
-        let factorPair = [i, num / i];
-        numFactors.push(factorPair);
+        // let factorPair = i > num / i ? [num / i, i] : [i, num / i];
+        numFactors.push([i, num / i]);
         }
       }
       return numFactors;
@@ -122,7 +150,7 @@ export default class NumberNamer {
     let num = parseInt(numOrString);
     
     if (num < 0) {
-      return ["-1", this.factorShortest(Math.abs(num))];
+      return [-1, this.factorShortest(Math.abs(num))];
     }
     
     let shortest = null;
@@ -140,7 +168,7 @@ export default class NumberNamer {
       }
     }
     
-    this.memo[num] = shortest;
+    this.memo[num] = Array.from(shortest);
     console.log(this.memo)
     return shortest;
   }
@@ -149,7 +177,6 @@ export default class NumberNamer {
     
     let factorArray = this.factorShortest(num);
     
-    //If the input is prime and not the prefix, use a single Un rather than Hen and Sna (kind of hacky)
     if (factorArray.includes("/")) {
       let numerator = factorArray.slice(0, factorArray.indexOf("/"));
       let denominator = factorArray.slice(factorArray.indexOf("/") + 1);
