@@ -139,29 +139,29 @@ describe (`factorShortest`, () => {
   test(`should return 1 as 1`, () => {
     expect(nameNumObject.factorShortest(`1`)).toEqual([1]);
   });
+
+  test(`should return the two matching factors that have a nameNumObject.findRoot value`, () => {
+    expect(nameNumObject.factorShortest(`32`)).toEqual([8, 4]);
+    expect(nameNumObject.factorShortest(`66`)).toEqual([11, 6]);
+  });
+  
+  test(`should return negatives as the abs of input with flag`, () => {
+    expect(nameNumObject.factorShortest(`-2`)).toEqual([-1, 2]);
+    expect(nameNumObject.factorShortest(`-612`)).toEqual([-1, 36, 17]);
+  });
+  
+  test(`should return strings of fractions as an array of the numerator and denominator with flag`, () => {
+    expect(nameNumObject.factorShortest(`1/1`)).toEqual([1, `/`, 1]);
+    expect(nameNumObject.factorShortest(`0/413`)).toEqual(['0', `/`,'(', '(',  7, 4, ')', 2, ')', 7]);
+  });
   
   test(`should return a combination of factors. all of which have a NumberNamer.findRoot value`, () => {
-    expect(nameNumObject.factorShortest(`666`)).toEqual([3, 6, '(', 36, ')']);
-    expect(nameNumObject.factorShortest(`111111`)).toEqual([13, 3, 7, 11,'(', 36, ')']);
+    expect(nameNumObject.factorShortest(`666`)).toEqual(['(', 36, ')', 6, 3, ]);
+    expect(nameNumObject.factorShortest(`111111`)).toEqual(['(', 36, ')', 11, 7, 3, 13]);
   });
 
   test(`should return primes as an array of num -1 with flags`, () => {
-    expect(nameNumObject.factorShortest(`19`)).toEqual([`(`, 3, 6, `)`]);
-    expect(nameNumObject.factorShortest(`1997`)).toEqual(['(', 4, '(', 6, '(', 2, '(', 5, 8, ')', ')', ')', ')']);
-  });
-
-  test(`should return strings of fractions as an array of the numerator and denominator with flag`, () => {
-    expect(nameNumObject.factorShortest(`1/1`)).toEqual([1, `/`, 1]);
-    expect(nameNumObject.factorShortest(`0/413`)).toEqual([0, `/`, 413]);
-  });
-
-  test(`should return negatives as the abs of input with flag`, () => {
-    expect(nameNumObject.factorShortest(`-2`)).toEqual([`-1`, 2]);
-    expect(nameNumObject.factorShortest(`-612`)).toEqual([`-1`, 612]);
-  });
-
-  test(`should return the two matching factors that have a nameNumObject.findRoot value`, () => {
-    expect(nameNumObject.factorShortest(`32`)).toEqual([4, 8]);
-    expect(nameNumObject.factorShortest(`66`)).toEqual([6, 11]);
+    expect(nameNumObject.factorShortest(`19`)).toEqual([`(`, 6, 3, `)`]);
+    expect(nameNumObject.factorShortest(`1997`)).toEqual(['(', '(', '(','(',  8, 5, ')', 2, ')', 6, ')', 4, ')']);
   });
 });

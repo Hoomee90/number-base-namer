@@ -7,6 +7,9 @@ export default class NumberNamer {
   }
 
   static sortNestedArray(arr) {
+
+    if (NumberNamer.findRoot(arr.toString())) return arr
+
     const sortAndFlatten = (nestedArr) => {
       //sort inner numbers
       const sortedNumbers = nestedArr.filter(item => typeof item === `number`).sort((a, b) => a - b);
@@ -39,8 +42,6 @@ export default class NumberNamer {
     };
 
     const nestedArray = createNestedArray(arr)
-
-    console.log(sortAndFlatten(nestedArray));
     return sortAndFlatten(nestedArray);
   }
 
@@ -150,7 +151,7 @@ export default class NumberNamer {
     let num = parseInt(numOrString);
     
     if (num < 0) {
-      return [-1, this.factorShortest(Math.abs(num))];
+      return this.factorShortest(Math.abs(num)).toSpliced(0, 0, -1);
     }
     
     let shortest = null;
@@ -169,7 +170,6 @@ export default class NumberNamer {
     }
     
     this.memo[num] = Array.from(shortest);
-    console.log(this.memo)
     return shortest;
   }
 
@@ -184,6 +184,7 @@ export default class NumberNamer {
     } else {
       factorArray = NumberNamer.handleFlags(factorArray);
     }
+    console.log(this.memo)
     console.log(factorArray);
     //turn integer array into single string with word roots
     let baseName = factorArray.reduce((accumulator, element, index) => accumulator + NumberNamer.findRoot(element, factorArray.length - 1 !== index, index > 0), "");
