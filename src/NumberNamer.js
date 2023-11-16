@@ -1,7 +1,7 @@
 export default class NumberNamer {
   constructor() {
     this.memo = {
-    1 : [1],
+    '1' : ['ONE'],
     "-1" : [-1]
     };
   }
@@ -47,7 +47,8 @@ export default class NumberNamer {
 
   static handleFlags(array) {
     //look for and process prime flags
-      let roReplaceNum = 0;
+    if (array.some(el => el === "(")) {
+      let replaceNumCount = 0;
       let replacing = true;
       let sortedArray = NumberNamer.sortNestedArray(array)
 
@@ -55,21 +56,19 @@ export default class NumberNamer {
           if (sortedArray[i] === `)` && replacing) {
             sortedArray.splice(i, 1);
             i++;
-            roReplaceNum++;
+            replaceNumCount++;
           }
-          if (sortedArray[i] === `(` && roReplaceNum) {
+          if (sortedArray[i] === `(` && replaceNumCount) {
             sortedArray[i] = '[';
-            roReplaceNum--;
+            replaceNumCount--;
             replacing = false;
           }
         }
-
-      //process 1s in numerators and denominators
-      if (sortedArray.length === 1 && sortedArray[0] === 1) {
-        sortedArray[0] = "ONE";
-      }
-
     return sortedArray
+    } 
+    else {
+      return array.sort((a, b) => a - b)
+    }
   }
 
   static isPrime(num) {
@@ -134,6 +133,32 @@ export default class NumberNamer {
       return numFactors;
     }
 
+  sieveOfEratosthenes(n) {
+    //shoutout to Eratosthenes
+    let primes = new Array(n + 1).fill(true);
+
+    primes[0] = false;
+    primes[1] = false;
+
+    for (let i = 2; i <= Math.sqrt(n); i++) {
+      if (primes[i]) {
+        for (let j = i * i; j <= n; j += i) {
+          primes[j] = false;
+        }
+      }
+    }
+
+    let result = [];
+
+    for (let i = 2; i <= n; i++) {
+      if (primes[i]) {
+        result.push(i)
+      }
+    }
+    this.primes = result;
+    return result;
+  }
+
   factorShortest(numOrString) {
 
     //Root ints are the only input that's return isn't an array
@@ -174,7 +199,7 @@ export default class NumberNamer {
   }
 
   nameNum(num) {
-    
+
     let factorArray = this.factorShortest(num);
     
     if (factorArray.includes("/")) {
@@ -184,8 +209,6 @@ export default class NumberNamer {
     } else {
       factorArray = NumberNamer.handleFlags(factorArray);
     }
-    console.log(this.memo)
-    console.log(factorArray);
     //turn integer array into single string with word roots
     let baseName = factorArray.reduce((accumulator, element, index) => accumulator + NumberNamer.findRoot(element, factorArray.length - 1 !== index, index > 0), "");
     

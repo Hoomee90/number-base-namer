@@ -52,10 +52,6 @@ describe(`handleFlags`, () => {
     expect(NumberNamer.handleFlags([`(`, 2, `)`])).toEqual([`[`, 2]);
   })
 
-  test(`should turn arrays of only the int 1 into the string ONE`, () => {
-    expect(NumberNamer.handleFlags([1])).toEqual([`ONE`]);
-  });
-
   test(`should turn all parens which close at the end into single brackets at open paren's index`, () => {
     expect(NumberNamer.handleFlags([5, 7, '(', 4, '(', 8, 9, ')', ')'])).toEqual([5, 7, '[', 4, '[', 8, 9]);
   });
@@ -136,8 +132,8 @@ describe (`factorShortest`, () => {
     });
   });
 
-  test(`should return 1 as 1`, () => {
-    expect(nameNumObject.factorShortest(`1`)).toEqual([1]);
+  test(`should return 1 as ONE`, () => {
+    expect(nameNumObject.factorShortest(1)).toEqual([`ONE`]);
   });
 
   test(`should return the two matching factors that have a nameNumObject.findRoot value`, () => {
@@ -151,7 +147,7 @@ describe (`factorShortest`, () => {
   });
   
   test(`should return strings of fractions as an array of the numerator and denominator with flag`, () => {
-    expect(nameNumObject.factorShortest(`1/1`)).toEqual([1, `/`, 1]);
+    expect(nameNumObject.factorShortest(`1/1`)).toEqual([`ONE`, `/`, `ONE`]);
     expect(nameNumObject.factorShortest(`0/413`)).toEqual(['0', `/`,'(', '(',  7, 4, ')', 2, ')', 7]);
   });
   
@@ -165,3 +161,11 @@ describe (`factorShortest`, () => {
     expect(nameNumObject.factorShortest(`1997`)).toEqual(['(', '(', '(','(',  8, 5, ')', 2, ')', 6, ')', 4, ')']);
   });
 });
+
+describe (`sieveOfEratosthenes`, () => {
+  const nameNumObject = new NumberNamer();
+
+  test(`should not crash`, () => {
+    expect(nameNumObject.sieveOfEratosthenes(10)).toHaveReturned;
+  });
+})
