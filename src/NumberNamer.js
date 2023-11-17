@@ -152,10 +152,9 @@ export default class NumberNamer {
 
     for (let i = 2; i <= n; i++) {
       if (primes[i]) {
-        result.push(i)
+        this.memo[i] = [`(`, i - 1, `)`];
       }
     }
-    this.primes = result;
     return result;
   }
 
