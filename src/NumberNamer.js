@@ -4,6 +4,7 @@ export default class NumberNamer {
     '1' : ['ONE'],
     "-1" : [-1]
     };
+    this.primes = [];
   }
 
   static sortNestedArray(arr) {
@@ -163,7 +164,7 @@ export default class NumberNamer {
 
     for (let i = 2; i <= n; i++) {
       if (primes[i]) {
-        this.memo[i] = [`(`, i - 1, `)`];
+        this.primes[i] = true;
       }
     }
   }
@@ -190,17 +191,21 @@ export default class NumberNamer {
     
     let shortest = null;
     let combination = [];
-    let factorPairs = (NumberNamer.getFactorPairs(num))
-
-    if (factorPairs.length === 0) {
-      shortest = ["("].concat(this.factorShortest(num - 1)).concat([")"]);
-    } else for (const pair of factorPairs) {
-      let [factor1, factor2] = pair;
-      combination = this.factorShortest(factor2).concat(this.factorShortest(factor1));
-
-      if (!shortest || combination.length <= shortest.length) {
-        shortest = combination;
+    
+    if (!this.primes[num]) {
+      let factorPairs = (NumberNamer.getFactorPairs(num))
+      if (factorPairs.length === 0) {
+        shortest = ["("].concat(this.factorShortest(num - 1)).concat([")"]);
+      } else for (const pair of factorPairs) {
+        let [factor1, factor2] = pair;
+        combination = this.factorShortest(factor2).concat(this.factorShortest(factor1));
+  
+        if (!shortest || combination.length <= shortest.length) {
+          shortest = combination;
+        }
       }
+    } else {
+      shortest = ["("].concat(this.factorShortest(num - 1)).concat([")"]);
     }
     
     this.memo[num] = Array.from(shortest);

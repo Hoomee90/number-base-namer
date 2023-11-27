@@ -37,13 +37,14 @@ describe(`NumberNamer`, () => {
 
 describe(`sortNestedArray`, () => {
 
-  test(`should return arrays without parens unmutated`, () => {
+  test(`should return array sorted so that all paren pairs are at the local end of the expression`, () => {
     expect(NumberNamer.sortNestedArray([3, "(", 4, 12, "(", 7, 9, ")", 17, ")", 4,  32])).toEqual([3, 4, 32, "(", 4, 12, 17, "(", 7, 9, ")", ")"]);
   });
 
-  test(`should return array sorted so that all paren pairs are at the local end of the expression`, () => {
+  test(`should return arrays without parens sorted by size`, () => {
     expect(NumberNamer.sortNestedArray([7, 3, 20])).toEqual([3, 7, 20]);
   });
+
 });
 
 describe(`handleFlags`, () => {
@@ -61,8 +62,13 @@ describe(`handleFlags`, () => {
   });
 
   test(`should respect parens when sorting`, () => {
-    expect(NumberNamer.handleFlags([20, 20, 6, 100])).toEqual([6, 20, 20, 100]);
+    expect(NumberNamer.handleFlags([3, "(", 4, 12, "(", 7, 9, ")",
+    17, ")", 4,  32])).toEqual([3, 4, 32, "[", 4, 12, 17, "[", 7, 9]);
   });
+
+  // test(`should work with the sieve`, () => {
+  //   expect(nameNumObject.factorShortest(`99999`)).toEqual([3, 6]);
+  // });
 });
 
 describe(`isPrime`, () => {
@@ -125,6 +131,12 @@ describe (`getFactorPairs`, () => {
 describe (`factorShortest`, () => {
 
   const nameNumObject = new NumberNamer();
+  afterEach(() => {
+    nameNumObject.memo = {
+      '1' : ['ONE'],
+      "-1" : [-1]
+      };
+  });
 
   Object.keys(testData).forEach(key => {
     test(`should return all inputs that have a findRoot return value unchanged`, () => {
@@ -165,24 +177,21 @@ describe (`factorShortest`, () => {
 describe (`sieveOfEratosthenes`, () => {
   let nameNumObject = new NumberNamer()
   afterEach(() => {
-    nameNumObject.memo = {
-      '1' : ['ONE'],
-      "-1" : [-1]
-      };
+    nameNumObject.primes = {};
   });
 
-  test(`should add entries to the memo for primes`, () => {
+  test(`should add entries to the primes object property with num keys`, () => {
     nameNumObject.sieveOfEratosthenes(100)
-    expect(nameNumObject.memo[19]).toBeTruthy();
+    expect(nameNumObject.primes[19]).toBeTruthy();
   });
 
   test(`should add only entries for primes`, () => {
     nameNumObject.sieveOfEratosthenes(100)
-    expect(nameNumObject.memo[22]).toBeUndefined();
+    expect(nameNumObject.primes[22]).toBeUndefined();
   });
 
-  test(`should not add entries for root rimes`, () => {
+  test(`should not add entries for root primes`, () => {
     nameNumObject.sieveOfEratosthenes(100)
-    expect(nameNumObject.memo[13]).toBeUndefined();
+    expect(nameNumObject.primes[13]).toBeUndefined();
   });
-})
+});
