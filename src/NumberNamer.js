@@ -133,12 +133,15 @@ export default class NumberNamer {
       return numFactors;
     }
 
+  showMemo(b, a = 0) {
+    if (b > 0) {
+      return Object.entries(this.memo).slice(a, b);
+    }
+  }
+
   sieveOfEratosthenes(n) {
     //shoutout to Eratosthenes
     let primes = new Array(n + 1).fill(true);
-
-    primes[0] = false;
-    primes[1] = false;
 
     for (let i = 2; i <= Math.sqrt(n); i++) {
       if (primes[i]) {
@@ -148,14 +151,21 @@ export default class NumberNamer {
       }
     }
 
-    let result = [];
+    primes[0] = false;
+    primes[1] = false;
+    primes[2] = false;
+    primes[3] = false;
+    primes[5] = false;
+    primes[7] = false;
+    primes[11] = false;
+    primes[13] = false;
+    primes[17] = false;
 
     for (let i = 2; i <= n; i++) {
       if (primes[i]) {
         this.memo[i] = [`(`, i - 1, `)`];
       }
     }
-    return result;
   }
 
   factorShortest(numOrString) {

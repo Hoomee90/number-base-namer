@@ -163,9 +163,26 @@ describe (`factorShortest`, () => {
 });
 
 describe (`sieveOfEratosthenes`, () => {
-  const nameNumObject = new NumberNamer();
+  let nameNumObject = new NumberNamer()
+  afterEach(() => {
+    nameNumObject.memo = {
+      '1' : ['ONE'],
+      "-1" : [-1]
+      };
+  });
 
-  test(`should not crash`, () => {
-    expect(nameNumObject.sieveOfEratosthenes(10)).toHaveReturned;
+  test(`should add entries to the memo for primes`, () => {
+    nameNumObject.sieveOfEratosthenes(100)
+    expect(nameNumObject.memo[19]).toBeTruthy();
+  });
+
+  test(`should add only entries for primes`, () => {
+    nameNumObject.sieveOfEratosthenes(100)
+    expect(nameNumObject.memo[22]).toBeUndefined();
+  });
+
+  test(`should not add entries for root rimes`, () => {
+    nameNumObject.sieveOfEratosthenes(100)
+    expect(nameNumObject.memo[13]).toBeUndefined();
   });
 })
