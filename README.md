@@ -1,8 +1,10 @@
-# Text Analyzer V2
+# Number Base Namer V2
 
 #### By **Samantha Callie**, inspired by [jan Misali](https://www.seximal.net/names-of-other-bases)
 
 #### Generate The Name of Any Number Base
+
+### [See it here](https://hoomee90.github.io/number-base-namer/)
 
 ## Technologies Used
 
